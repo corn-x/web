@@ -23,17 +23,18 @@
         background-size: contain;
       }
 
-      div.trinity {
-        background-image: url(../common/Trinity.jpg);
+      div.meetings {
+        background-image: url(../common/Meetings.jpg);
       }
 
-      div.morpheus {
-        background-image: url(../common/Morpheus.jpg);
+      div.invitations {
+        background-image: url(../common/Invitations.jpg);
       }
       
-      div.neo {
-        background-image: url(../common/Neo.jpg);
+      div.teams {
+        background-image: url(../common/Teams.jpg);
       }
+
     </style>
 
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
@@ -44,9 +45,9 @@
 
   <body ng-app='routingi'>
 
-    <p><a href='#/one/10'>Trinity</a> | 
-      <a href='#/two/200/20'>Morpheus</a> | 
-      <a href='#/three/3000/300/30'>Neo</a>
+    <p><a href='#/meetings/'>Meetings</a> | 
+      <a href='#/invitations/'>Invitations</a> | 
+      <a href='#/teams/'>Teams</a>
     </p>
 
     <div class="viewport" ng-view>
@@ -60,20 +61,20 @@
           routingiApp.config(['$routeProvider',
             function ($routeProvider) {
               $routeProvider.
-                      when('/one/:oneId/', {
-                        templateUrl: 'templates/one.html',
-                        controller: 'oneController'
+                      when('/meetings/', {
+                        templateUrl: 'templates/meetings.html',
+                        controller: 'meetingsController'
                       }).
-                      when('/two/:oneId/:twoId/', {
-                        templateUrl: 'templates/two.html',
-                        controller: 'twoController'
+                      when('/invitations/', {
+                        templateUrl: 'templates/invitations.html',
+                        controller: 'invitationsController'
                       }).
-                      when('/three/:oneId/:twoId/:threeId/', {
-                        templateUrl: 'templates/three.html',
-                        controller: 'threeController'
+                      when('/teams/', {
+                        templateUrl: 'templates/teams.html',
+                        controller: 'teamsController'
                       }).
                       otherwise({
-                        redirectTo: '/one/123/'
+                        redirectTo: '/'
                       });
             }]);
           
