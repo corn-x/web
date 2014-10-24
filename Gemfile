@@ -1,4 +1,6 @@
 source 'https://rubygems.org'
+source 'https://rails-assets.org'
+
 ruby '2.1.3'
 gem 'rails', '4.1.6'
 gem 'sqlite3'
@@ -10,7 +12,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
-gem 'bootstrap-sass'
+# gem 'bootstrap-sass'
 gem 'devise'
 gem 'devise-i18n'
 gem 'figaro', '>= 1.0.0.rc1'
@@ -39,5 +41,26 @@ group :test do
   gem 'launchy'
   gem 'selenium-webdriver'
 end
+
+
+# Assets
+gem 'rails-assets-jquery'
+gem 'rails-assets-angular'
+gem 'rails-assets-angular-cookies'
+gem 'rails-assets-angular-resource'
+gem 'rails-assets-angular-animate'
+gem 'rails-assets-angular-ui-router'
+gem 'angular-ui-bootstrap-rails'
+gem 'bootstrap-sass'
+gem 'rails-assets-angular-translate'
+gem 'rails-assets-angular-translate-storage-cookie'
+gem 'rails-assets-datetimepicker'
+gem 'rails-assets-angular-ui-calendar', '0.9.0.beta.1'
+gem 'rails-assets-moment'
+gem 'rails-assets-angular-moment'
+gem 'rails-assets-angular-translate-loader-static-files'
+gem 'font-awesome-sass'
+gem 'rails-assets-qtip2'
+gem 'rails-assets-angular-loading-bar'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
