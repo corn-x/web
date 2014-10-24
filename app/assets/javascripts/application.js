@@ -11,7 +11,24 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery_ujs
-//= require turbolinks
-//= require bootstrap-sprockets
+//= require angular
+//= require angular-ui-router
+//= require angular-cookies
+//= require angular-translate
+//= require angular-animate
+//= require angular-resource
+//= require moment
+//= require moment/locale/pl
+//= require angular-moment
+//= require angular-ui-bootstrap
+//= require angular-ui-bootstrap-tpls
+//= require angular-translate-loader-static-files
+//= require angular-translate-storage-cookie
+//= require datetimepicker
+//= require fullcalendar
+//= require fullcalendar/lang/pl
+//= require angular-ui-calendar
+//= require qtip2/jquery.qtip
+//= require angular-loading-bar
+//= require_self
 //= require_tree .
