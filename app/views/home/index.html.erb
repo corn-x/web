@@ -1,0 +1,99 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style type="text/css">
+      div.viewport {
+        width: 100%;
+        height: 90%;
+        position: relative;
+        background-color: #000000;
+      }
+
+      div.viewport div {
+        width: 100%;
+        height: 100%;
+        position: relative;
+
+        color: white;
+        font-weight: bold;
+        font-size: 60px;
+
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+      }
+
+      div.trinity {
+        background-image: url(../common/Trinity.jpg);
+      }
+
+      div.morpheus {
+        background-image: url(../common/Morpheus.jpg);
+      }
+      
+      div.neo {
+        background-image: url(../common/Neo.jpg);
+      }
+    </style>
+
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.min.js"></script>
+  </head>
+
+
+
+  <body ng-app='routingi'>
+
+    <p><a href='#/one/10'>Trinity</a> | 
+      <a href='#/two/200/20'>Morpheus</a> | 
+      <a href='#/three/3000/300/30'>Neo</a>
+    </p>
+
+    <div class="viewport" ng-view>
+
+      Loading data...
+
+    </div>
+
+    <script type='text/javascript' language='JavaScript'>
+          var routingiApp = angular.module('routingi', ['ngRoute', 'routingiControllers']);
+          routingiApp.config(['$routeProvider',
+            function ($routeProvider) {
+              $routeProvider.
+                      when('/one/:oneId/', {
+                        templateUrl: 'templates/one.html',
+                        controller: 'oneController'
+                      }).
+                      when('/two/:oneId/:twoId/', {
+                        templateUrl: 'templates/two.html',
+                        controller: 'twoController'
+                      }).
+                      when('/three/:oneId/:twoId/:threeId/', {
+                        templateUrl: 'templates/three.html',
+                        controller: 'threeController'
+                      }).
+                      otherwise({
+                        redirectTo: '/one/123/'
+                      });
+            }]);
+          
+          var routingiControllers = angular.module('routingiControllers', []);
+          routingiControllers.controller('oneController', ['$scope', '$routeParams',
+            function ($scope, $routeParams) {
+              $scope.oneId = $routeParams.oneId;
+            }]);
+          
+          routingiControllers.controller('twoController', ['$scope', '$routeParams',
+            function ($scope, $routeParams) {
+              $scope.oneId = $routeParams.oneId;
+              $scope.twoId = $routeParams.twoId;
+            }]);
+          
+          routingiControllers.controller('threeController', ['$scope', '$routeParams',
+            function ($scope, $routeParams) {
+              $scope.oneId = $routeParams.oneId;
+              $scope.twoId = $routeParams.twoId;
+              $scope.threeId = $routeParams.threeId;
+            }]);</script>
+  </body>
+</html>
