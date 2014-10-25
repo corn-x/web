@@ -57,6 +57,16 @@ app.config(['$routeProvider',
                 controller: 'teamsController'
             }).
 
+            when('/teams/:createTeam/'), {
+                templateUrl: 'templates/createTeam.html'
+                controller: 'createTeamController'
+            }
+
+            when('/meetings/:createMeeting'), {
+                templateUrl: 'templates/createMeeting.html'
+                controller: 'createMeetingController'
+            }
+
             when('/home/', {
                 controller: 'homeController'
             }).
@@ -92,6 +102,17 @@ routingiControllers.controller('teamsController', ['$scope', '$routeParams', '$h
 
             });
     }]);
+
+routingiControllers.controller('createTeamController', ['$scope', '$routeParams','$http',
+    function ($scope, $routeParams,$http) {
+        $scope.meetingId = $routeParams.meetingId;
+    });
+
+routingiControllers.controller('createMeetingController', ['$scope', '$routeParams','$http',
+    function ($scope, $routeParams,$http) {
+        $scope.meetingId = $routeParams.meetingId;
+    });
+
 
 routingiControllers.controller('homeController', ['$scope', function ($scope) {
         $scope.message = "Home sweet home!";
