@@ -51,7 +51,7 @@ app.config(['$routeProvider',
                 templateUrl: 'templates/meetings.html',
                 controller: 'meetingsController'
             }).
-
+            
             when('/teams/my/', {
                 templateUrl: 'templates/teams.html',
                 controller: 'myTeamsController'
@@ -65,11 +65,6 @@ app.config(['$routeProvider',
             when('/meetings/createMeeting', {
                 templateUrl: 'templates/createMeeting.html',
                 controller: 'createMeetingController'
-            }).
-
-            when('/teams/createTeam', {
-                templateUrl: 'templates/createTeam.html',
-                controller: 'createTeamController'
             }).
 
             when('/login', {
@@ -102,23 +97,38 @@ routingiControllers.controller('createMeetingController', ['$scope', '$routePara
         $scope.meeting.time_ranges = [];
 
         $scope.open = function(start, end, allDay)  {
-            $scope.meeting.time_ranges.push({start_time: start, end_time: end});
-
-            $scope.calendar.fullCalendar('renderEvent',
-                {
+            var event = {
                     title: 'placeholder',
                     start: start,
-                    end: end
-                },
-                true
-            );
+                    end: end,
+                    id: Math.random().toString(36).substring(7)
+                };
+            $scope.calendar.fullCalendar('renderEvent', event, true);
+            $scope.meeting.time_ranges.push({start_time: start, end_time: end, event:event});
+
+            
             $scope.calendar.fullCalendar('unselect');
         };
+
+        $scope.eventClick = function(event) {
+            console.log(event);
+            $scope.calendar.fullCalendar('removeEvents', event.id);
+            var remain = [];
+              for(var i in $scope.meeting.time_ranges){
+                if($scope.meeting.time_ranges[i].event.id == event.id){
+                  continue;
+                }
+                remain.push($scope.meeting.time_ranges[i]);
+              }
+              $scope.meeting.time_ranges = remain;
+        };
+
         $scope.uiConfig = {
             calendar: {
                 selectable: true,
                 select: $scope.open,
                 selectHelper: true,
+                eventClick: $scope.eventClick,
                 editable: true,
                 header: {
                     left: 'title',
@@ -145,9 +155,9 @@ routingiControllers.controller('createMeetingController', ['$scope', '$routePara
         };
     }]);
 
-
 routingiControllers.controller('createTeamController', ['$scope', '$routeParams', 'Teams',
     function ($scope, $routeParams, Teams) {
+
         $scope.team = {};
 
         $scope.create = function(team) {
@@ -156,19 +166,21 @@ routingiControllers.controller('createTeamController', ['$scope', '$routeParams'
                 alert("Something gone wrong :/");
             });
         };
-
     }]);
+
 
 routingiControllers.controller('myTeamsController', ['$scope', '$routeParams', 'Teams',
     function ($scope, $routeParams, Teams) {
         $scope.my_teams = Teams.my();
     }]);
 
+routingiControllers.controller('homeController', ['$scope', function ($scope) {
+        $scope.message = "Home sweet home!";
+        $scope.teamId = 6;
+    }]);
+
 var dyrektywyApp = angular.module('dyrektywy', [])
-
     .controller('mainController', ['$scope', function ($scope) {
-
-
     }]);
 
 var services = angular.module('services',['ngResource']);
@@ -200,3 +212,22 @@ services.factory("Meetings", ['$resource', function ($resource) {
         // they're included by default
     })
 }]);
+
+ /*$scope.eventClick = function(event){           
+        $scope.$apply(function(){
+          $scope.remove({
+            start: start,
+            end: end
+          })
+        });
+    };
+
+$scope.events.splice(index,1);
+ $scope.events.push({
+        title: 'New Task',
+        start: new Date(y, m, 28),
+        end: new Date(y, m, 29),
+        className: ['newtask']
+      });
+     
+    $scope.events.splice(index,1);*/
