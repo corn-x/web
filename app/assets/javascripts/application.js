@@ -62,7 +62,6 @@ app.config(['$routeProvider',
             }).
 
             otherwise({
-                templateUrl: 'templates/team.html',
                 redirectTo: '/'
             });
     }]);
@@ -70,7 +69,7 @@ app.config(['$routeProvider',
 var routingiControllers = angular.module('routingiControllers', []);
 
 routingiControllers.controller('meetingsController', ['$scope', '$routeParams','$http',
-    function ($scope, $routeParams,$http) {
+    function ($scope, $routeParams, $http) {
         $scope.meetingId = $routeParams.meetingId;
         $http.get('https://api.github.com/users/mralexgray/repos')
             .success(function (data) {

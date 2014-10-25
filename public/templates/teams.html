@@ -1,6 +1,8 @@
   <h1>Teams</h1>
 
-    <accordion close-others="false">
+  <a href="/teams/createTeam" class="btn btn-primary">Create Team</a>
+
+  <accordion close-others="false">
         <accordion-group heading="{{team.name}}" ng-repeat="team in teams">
             {{team.description}}
         </accordion-group>
