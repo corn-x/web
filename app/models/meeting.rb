@@ -16,7 +16,7 @@ class Meeting < ActiveRecord::Base
     slice_times.sort
     previous = slice_times.first
     events = []
-    unless slice_times.size == 0
+    unless slice_times.empty?
       slice_times[1..-1].each do |time|
         collisions = 0
         users.each do |u|
@@ -29,6 +29,11 @@ class Meeting < ActiveRecord::Base
         color = '#' + collisions
         events += {title: collisions, start: previous, end: time, color: color}
         previous = time
+      end
+    end
+    if events.empty?
+      time_ranges.each do |time|
+        events += {title: '0', start: time.begin, end: time.end, color: '#00ff00'}
       end
     end
     events
