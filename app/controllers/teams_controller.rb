@@ -50,6 +50,11 @@ class TeamsController < ApplicationController
     end
   end
 
+  def my_invitations
+    invitations = TeamMembership.where('user_id = ? and role = ?', current_user.id, TeamMembership::INVITATION)
+    render json: invitations
+  end
+
   # GET /teams
   # GET /teams.json
   def index

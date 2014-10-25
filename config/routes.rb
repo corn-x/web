@@ -18,6 +18,11 @@ Rails.application.routes.draw do
           get 'my'
         end
       end
+      resources :invitations do
+        collection do
+          get 'my', to: 'teams#my_invitations'
+        end
+      end
       resources :meetings do
         member do
           get 'stats'
