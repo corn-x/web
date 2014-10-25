@@ -28,5 +28,6 @@ class Meeting < ActiveRecord::Base
       events += {title: collisions, start: previous, end: time, color: color}
       previous = time
     end
+    events
   end
 end

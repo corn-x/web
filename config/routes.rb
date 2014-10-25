@@ -15,6 +15,11 @@ Rails.application.routes.draw do
           get 'my'
         end
       end
+      resources :meetings do
+        member do
+          get 'stats'
+        end
+      end
     end
   end
 end
