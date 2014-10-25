@@ -65,6 +65,17 @@
                         templateUrl: 'templates/teams.html',
                         controller: 'teamsController'
                       }).
+
+                      when('/meetings/:meetingId/', {
+                          templateUrl: 'templates/meetings.html',
+                          controller: 'meetingsController'
+                      }).
+
+                      when('/teams/:teamId/', {
+                          templateUrl: 'templates/teams.html',
+                          controller: 'teamsController'
+                      }).
+
                       otherwise({
                         redirectTo: '/'
                       });
@@ -74,13 +85,14 @@
 
           routingiControllers.controller('meetingsController', ['$scope', '$routeParams',
             function ($scope, $routeParams) {
-              $scope.oneId = $routeParams.oneId;
+              $scope.meetingId = $routeParams.meetingId;
             }]);
           
           routingiControllers.controller('teamsController', ['$scope', '$routeParams',
             function ($scope, $routeParams) {
-              $scope.oneId = $routeParams.oneId;
-              $scope.threeId = $routeParams.threeId;
-            }]);</script>
+              $scope.teamId = $routeParams.teamId;
+            }]);
+
+    </script>
   </body>
 </html>
