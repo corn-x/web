@@ -1,6 +1,7 @@
 class MeetingsController < ApplicationController
   before_action :authenticate_from_token!
   before_action :set_meeting, only: [:show, :edit, :update, :destroy, :stats]
+  respond_to :json
 
   def stats
     render json: @meeting.solve
@@ -64,6 +65,12 @@ class MeetingsController < ApplicationController
       format.html { redirect_to meetings_url, notice: 'Meeting was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def my
+    team_ids = current_user.team_memberships.map{|tm| tm.team_id}
+    @meetings = Meeting.where(team_id: team_ids)
+    respond_with @meetings, template: 'meetings/index'
   end
 
   private
