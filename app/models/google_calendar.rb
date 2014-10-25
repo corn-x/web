@@ -12,8 +12,7 @@ class GoogleCalendar < ActiveRecord::Base
   end
 
   def pending_update?
-    # !last_synced or last_synced < Time.now - 5.minutes
-    true
+    !last_synced or last_synced < Time.now - 5.minutes  
   end
 
   def sync(start_time,end_time)
@@ -25,13 +24,12 @@ class GoogleCalendar < ActiveRecord::Base
     result = oauth_wrapper.execute(
       api_method: calendar.events.list,
       parameters: {
-        'calendarId' => 'lgurdek@gmail.com',
+        'calendarId' => self.ext_id,
         'singleEvents' => 'true',
         'timeMin' => start_time.iso8601,
         'timeMax' => end_time.iso8601
       }
     )
-
     result.data.items.each do |event|
       dbevent = self.get_events.find_by_ext_id(event.id)
       if dbevent
@@ -39,7 +37,6 @@ class GoogleCalendar < ActiveRecord::Base
       else
         self.get_events.create!(ext_id: event.id, start_time: event.start.dateTime, end_time: event.end.dateTime)
       end
-
     end
     self.update(last_synced: Time.now)
     true

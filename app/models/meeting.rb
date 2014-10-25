@@ -5,6 +5,11 @@ class Meeting < ActiveRecord::Base
   belongs_to :creator, class_name: 'User'
   serialize :time_ranges, Array
 
+  validates :team_id, presence: true
+  validates :name, presence: true
+  validates :name, uniqueness: true
+  validate :time_ranges_must_be_valid, if: Proc.new { time_ranges.present? and time_ranges.count > 0 }
+
   def scheduled?
     !self.start_time.nil? and !self.end_time.nil?
   end
@@ -33,7 +38,8 @@ class Meeting < ActiveRecord::Base
         end
         hue = (1 - (collisions / users.size.to_f)) * 0.4
         events << {
-            title: collisions, start: previous,
+            title: collisions,
+            start: previous,
             end: time,
             color: '#' + Color::HSL.from_fraction(h = hue, s = 0.9, l = 0.9).to_rgb.hex
         }
@@ -42,4 +48,13 @@ class Meeting < ActiveRecord::Base
     end
     events
   end
+  private
+  def time_ranges_must_be_valid
+    time_ranges.each do |tr|
+      if tr.begin > tr.end
+        errors.add(:time_ranges, 'begin time cannot be after end time')
+      end
+    end
+  end
 end
+

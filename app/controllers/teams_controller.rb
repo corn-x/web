@@ -15,8 +15,8 @@ class TeamsController < ApplicationController
   end
 
   def add_member
-    invitations = add_member_params.map do |id|
-      @team.team_memberships.create(user: User.find(id), role: 'invitation')
+    invitations = add_member_params.map do |email|
+      @team.team_memberships.create(user: User.find_by_email(email), role: 'invitation')
     end
     render json: invitations
   end
@@ -64,15 +64,20 @@ class TeamsController < ApplicationController
   # POST /teams
   # POST /teams.json
   def create
-    @team = Team.new(team_params)
+    ActiveRecord::Base.transaction do
+      @tm = current_user.team_memberships.build(role: TeamMembership::MANAGER)
+      @team = @tm.build_team(team_params)
+      @team.save
+      @tm.team = @team
 
-    respond_to do |format|
-      if @team.save
-        format.html { redirect_to @team, notice: 'Team was successfully created.' }
-        format.json { render :show, status: :created, location: @team }
-      else
-        format.html { render :new }
-        format.json { render json: @team.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @tm.save
+          format.html { redirect_to @tm.team, notice: 'Team was successfully created.' }
+          format.json { render :show, status: :created, location: @tm.team }
+        else
+          format.html { render :new }
+          format.json { render json: @tm.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -117,6 +122,6 @@ class TeamsController < ApplicationController
     end
 
     def add_member_params 
-      params[:user_ids]
+      params[:user_emails]
     end
 end
