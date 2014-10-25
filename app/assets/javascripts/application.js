@@ -33,7 +33,7 @@
 //= require_self
 //= require_tree .
 
-var app = angular.module('routingi', ['ngRoute', 'routingiControllers','ui.bootstrap','dyrektywy']);
+var app = angular.module('routingi', ['ngRoute', 'routingiControllers','ui.bootstrap','dyrektywy','services']);
 app.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
@@ -78,8 +78,8 @@ app.config(['$routeProvider',
 
 var routingiControllers = angular.module('routingiControllers', []);
 
-routingiControllers.controller('meetingsController', ['$scope', '$routeParams','$http',
-    function ($scope, $routeParams, $http) {
+routingiControllers.controller('meetingsController', ['$scope', '$routeParams','$http','Teams',
+    function ($scope, $routeParams, $http, Teams) {
         $scope.meetingId = $routeParams.meetingId;
         $http.get('https://api.github.com/users/mralexgray/repos')
             .success(function (data) {
@@ -88,6 +88,8 @@ routingiControllers.controller('meetingsController', ['$scope', '$routeParams','
 
 
             });
+        $scope.my_teams = Teams.my();
+
     }]);
 
 routingiControllers.controller('teamsController', ['$scope', '$routeParams', '$http',
@@ -124,3 +126,18 @@ var dyrektywyApp = angular.module('dyrektywy', [])
 
 
     }]);
+var services = angular.module('services',['ngResource']);
+
+services.factory("Teams", ['$resource', function ($resource) {
+    return $resource('/api/v1/teams/:id', { id: '@id' }, {
+        //'get': {method:'GET'},
+        // 'save': {method:'POST'},
+        // 'query': {method:'GET', isArray:true},
+        // 'remove': {method:'DELETE'},
+        // 'delete': {method:'DELETE'}
+        update: { method: 'PATCH' },
+        my: { method: 'GET', isArray:true}
+
+        // they're included by default
+    })
+}]);
