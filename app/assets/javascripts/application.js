@@ -165,13 +165,16 @@ routingiControllers.controller('createMeetingController', ['$scope', '$routePara
 routingiControllers.controller('chooseTimeController', ['$scope', '$routeParams',
     function ($scope, $routeParams) {
 
-var id = $routeParams.id
+        var id = $routeParams.id;
 
-$scope.eventSources = [{
-        url: "/api/v1/meetings/"+id+"/stats",
-        editable: false,
-        ignoreTimezone: false
-    }];
+        $scope.eventSources = [{
+            url: "/api/v1/meetings/"+id+"/stats",
+            editable: false,
+            ignoreTimezone: false
+        }];
+
+        $scope.meeting = {};
+        $scope.meeting.time_ranges = [];
 
         $scope.eventClick = function(event) {
             console.log(event);
@@ -184,7 +187,7 @@ $scope.eventSources = [{
                 remain.push($scope.meeting.time_ranges[i]);
               }
               $scope.meeting.time_ranges = remain;
-        }
+        };
         $scope.uiConfig = {
             calendar: {
                 selectable: true,
@@ -206,9 +209,6 @@ $scope.eventSources = [{
                 timezone: 'local'
             }
         };
-
-        $scope.meeting = {};
-        $scope.meeting.time_ranges = [];
 
     }]);
 
@@ -241,8 +241,6 @@ routingiControllers.controller('homeController', ['$scope', function ($scope) {
 var dyrektywyApp = angular.module('dyrektywy', [])
 
     .controller('mainController', ['$scope', function ($scope) {
-
-
     }]);
 
 var services = angular.module('services',['ngResource']);
