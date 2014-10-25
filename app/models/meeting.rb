@@ -16,18 +16,20 @@ class Meeting < ActiveRecord::Base
     slice_times.sort
     previous = slice_times.first
     events = []
-    slice_times[1..-1].each do |time|
-      collisions = 0
-      users.each do |u|
-        if u.busy?(previous, time)
-          collisions += 1
+    unless slice_times.size == 0
+      slice_times[1..-1].each do |time|
+        collisions = 0
+        users.each do |u|
+          if u.busy?(previous, time)
+            collisions += 1
+          end
         end
+        collisions *= 32
+        collisions.to_s(16)
+        color = '#' + collisions
+        events += {title: collisions, start: previous, end: time, color: color}
+        previous = time
       end
-      collisions *= 32
-      collisions.to_s(16)
-      color = '#' + collisions
-      events += {title: collisions, start: previous, end: time, color: color}
-      previous = time
     end
     events
   end
