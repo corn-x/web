@@ -22,6 +22,18 @@
     <h1>Teams</h1>
   <teaminfo ng-repeat="team in teams" name="team"></teaminfo>
 
+    <accordion close-others="true">
+        <accordion-group heading="Static Team!" is-open="status.isFirstOpen">
+            This content is straight in the template.
+        </accordion-group>
+        <accordion-group heading="{{team.name}}" ng-repeat="team in teams">
+            {{team.description}}
+        </accordion-group>
+    </accordion>
+
+
+
+
   <!-- Ciekawa dyrektywa do szablonów, która pozwala dynamicznie modyfikować arkusz styli w miłej formie!-->
 
   <script type='text/javascript' language='JavaScript'>
