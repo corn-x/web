@@ -12,7 +12,7 @@
 //
 //= require jquery
 //= require angular
-//= require angular-ui-router
+//= require angular-route
 //= require angular-cookies
 //= require angular-translate
 //= require angular-animate
@@ -32,3 +32,65 @@
 //= require angular-loading-bar
 //= require_self
 //= require_tree .
+
+var app = angular.module('routingi', ['ngRoute', 'routingiControllers','ui.bootstrap','dyrektywy']);
+app.config(['$routeProvider',
+    function ($routeProvider) {
+        $routeProvider.
+            when('/teams/', {
+                templateUrl: 'templates/teams.html',
+                controller: 'teamsController'
+            }).
+            when('/meetings/', {
+                templateUrl: 'templates/meetings.html',
+                controller: 'meetingsController'
+            }).
+
+            when('/meetings/:meetingId/', {
+                templateUrl: 'templates/meeting.html',
+                controller: 'meetingsController'
+            }).
+
+            when('/teams/:teamId/', {
+                templateUrl: 'templates/team.html',
+                controller: 'teamsController'
+            }).
+
+            otherwise({
+                redirectTo: '/'
+            });
+    }]);
+
+var routingiControllers = angular.module('routingiControllers', []);
+
+routingiControllers.controller('meetingsController', ['$scope', '$routeParams','$http',
+    function ($scope, $routeParams,$http) {
+        $scope.meetingId = $routeParams.meetingId;
+        $http.get('https://api.github.com/users/mralexgray/repos') //szybkie zapytanie, są inne metody
+            .success(function (data) {
+                $scope.events = data;
+            }).error(function(data, status, headers, config) {
+
+
+            });
+    }]);
+
+routingiControllers.controller('teamsController', ['$scope', '$routeParams', '$http',
+    function ($scope, $routeParams, $http) {
+        $scope.teamId = $routeParams.teamId;
+        $http.get('https://api.github.com/users/mralexgray/repos') //szybkie zapytanie, są inne metody
+            .success(function (data) {
+                $scope.teams = data;
+            }).error(function(data, status, headers, config) {
+
+
+            });
+    }]);
+
+
+var dyrektywyApp = angular.module('dyrektywy', [])
+
+    .controller('mainController', ['$scope', function ($scope) {
+
+
+    }]);
