@@ -57,15 +57,15 @@ app.config(['$routeProvider',
                 controller: 'teamsController'
             }).
 
-            when('/teams/:createTeam/'), {
-                templateUrl: 'templates/createTeam.html'
+            when('/teams/:createTeam/', {
+                templateUrl: 'templates/createTeam.html',
                 controller: 'createTeamController'
-            }
+            }).
 
-            when('/meetings/:createMeeting'), {
-                templateUrl: 'templates/createMeeting.html'
+            when('/meetings/:createMeeting', {
+                templateUrl: 'templates/createMeeting.html',
                 controller: 'createMeetingController'
-            }
+            }).
 
             when('/home/', {
                 controller: 'homeController'
@@ -102,15 +102,15 @@ routingiControllers.controller('teamsController', ['$scope', '$routeParams', '$h
             });
     }]);
 
-routingiControllers.controller('createTeamController', ['$scope', '$routeParams','$http',
-    function ($scope, $routeParams,$http) {
+routingiControllers.controller('createTeamController', ['$scope', '$routeParams',
+    function ($scope, $routeParams) {
         $scope.meetingId = $routeParams.meetingId;
-    });
+    }]);
 
-routingiControllers.controller('createMeetingController', ['$scope', '$routeParams','$http',
-    function ($scope, $routeParams,$http) {
+routingiControllers.controller('createMeetingController', ['$scope', '$routeParams',
+    function ($scope, $routeParams) {
         $scope.meetingId = $routeParams.meetingId;
-    });
+    }]);
 
 
 routingiControllers.controller('homeController', ['$scope', function ($scope) {
