@@ -14,9 +14,9 @@
         height: 100%;
         position: relative;
 
-        color: white;
+        color: #000000;
         font-weight: bold;
-        font-size: 60px;
+        font-size: 12px;
 
         background-repeat: no-repeat;
         background-position: center;
@@ -24,11 +24,11 @@
       }
 
       div.meetings {
-        background-image: url(../common/Meetings.jpg);
+        background-image: url(/common/Meetings.jpg);
       }
       
       div.teams {
-        background-image: url(../common/Teams.jpg);
+        background-image: url(/common/Teams.jpg);
       }
 
     </style>
@@ -44,7 +44,6 @@
     <p><a href='#/meetings/'>Meetings</a> | 
       <a href='#/teams/'>Teams</a>
     </p>
-
     <div class="viewport" ng-view>
 
       Loading data...
@@ -52,7 +51,7 @@
     </div>
 
     <script type='text/javascript' language='JavaScript'>
-          var routingiApp = angular.module('routingi', ['ngRoute', 'routingiControllers']);
+          var routingiApp = angular.module('routingi', ['ngRoute', 'routingiControllers','ui.bootstrap']);
           routingiApp.config(['$routeProvider',
             function ($routeProvider) {
               $routeProvider.
