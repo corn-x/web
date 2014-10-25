@@ -10,7 +10,7 @@ class Meeting < ActiveRecord::Base
   def solve
     users = self.team.team_memberships.map { |tm| tm.user }
     slice_times = []
-    user.each do |u|
+    users.each do |u|
       slice_times += u.slice_times(self.time_ranges)
     end
     slice_times.sort
