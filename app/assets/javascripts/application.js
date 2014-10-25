@@ -38,7 +38,7 @@ var rootScope;
 
 var app = angular.module('routingi', ['ngRoute',
     'routingiControllers',
-    'ui.bootstrap','dyrektywy','services','session-service',]);
+    'ui.bootstrap','dyrektywy','services','session-service']);
 app.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
@@ -156,6 +156,7 @@ routingiControllers.controller('createTeamController', ['$scope', '$routeParams'
                 alert("Something gone wrong :/");
             });
         };
+
     }]);
 
 routingiControllers.controller('myTeamsController', ['$scope', '$routeParams', 'Teams',
