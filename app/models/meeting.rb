@@ -11,7 +11,7 @@ class Meeting < ActiveRecord::Base
     users = team.team_memberships.map { |tm| tm.user }
     slice_times = []
     users.each do |u|
-      slice_times << u.slice_times(time_ranges)
+      slice_times += u.slice_times(time_ranges)
     end
     time_ranges.each do |time_range|
       slice_times << time_range.begin
