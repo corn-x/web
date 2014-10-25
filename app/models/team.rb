@@ -1,6 +1,7 @@
 class Team < ActiveRecord::Base
   has_many :team_memberships
   has_many :meetings
+  validates :name, presence: true
   validates :name, uniqueness: true
 
   def members
