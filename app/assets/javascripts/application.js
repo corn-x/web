@@ -49,23 +49,23 @@ app.config(['$routeProvider',
                 templateUrl: 'templates/meetings.html',
                 controller: 'meetingsController'
             }).
-
-            when('/meetings/:meetingId/', {
-                templateUrl: 'templates/meeting.html',
+/*
+            when('/meetings/my/', {
+                templateUrl: 'templates/meetings.html',
                 controller: 'meetingsController'
             }).
-
-            when('/teams/:teamId/', {
-                templateUrl: 'templates/team.html',
-                controller: 'teamsController'
+*/
+            when('/teams/my/', {
+                templateUrl: 'templates/teams.html',
+                controller: 'myTeamsController'
             }).
 
-            when('/teams/:createTeam/', {
+            when('/teams/createTeam/', {
                 templateUrl: 'templates/createTeam.html',
                 controller: 'createTeamController'
             }).
 
-            when('/meetings/:createMeeting', {
+            when('/meetings/createMeeting', {
                 templateUrl: 'templates/createMeeting.html',
                 controller: 'createMeetingController'
             }).
@@ -88,32 +88,21 @@ var routingiControllers = angular.module('routingiControllers', []);
 routingiControllers.controller('meetingsController', ['$scope', '$routeParams','$http','Teams',
     function ($scope, $routeParams, $http, Teams) {
         $scope.meetingId = $routeParams.meetingId;
-        $http.get('https://api.github.com/users/mralexgray/repos')
-            .success(function (data) {
-                $scope.events = data;
-            }).error(function(data, status, headers, config) {
-
-
-            });
-        $scope.my_teams = Teams.my();
-
     }]);
 
 routingiControllers.controller('teamsController', ['$scope', '$routeParams', '$http',
     function ($scope, $routeParams, $http) {
         $scope.teamId = $routeParams.teamId;
-        $http.get('https://api.github.com/users/mralexgray/repos')
-            .success(function (data) {
-                $scope.teams = data;
-            }).error(function(data, status, headers, config) {
-
-
-            });
     }]);
 
 routingiControllers.controller('createTeamController', ['$scope', '$routeParams',
     function ($scope, $routeParams) {
         $scope.meetingId = $routeParams.meetingId;
+    }]);
+
+routingiControllers.controller('myTeamsController', ['$scope', '$routeParams', 'Teams',
+    function ($scope, $routeParams, Teams) {
+        $scope.my_teams = Teams.my();
     }]);
 
 routingiControllers.controller('createMeetingController', ['$scope', '$routeParams',
@@ -137,6 +126,21 @@ var services = angular.module('services',['ngResource']);
 
 services.factory("Teams", ['$resource', function ($resource) {
     return $resource('/api/v1/teams/:id', { id: '@id' }, {
+        //'get': {method:'GET'},
+        // 'save': {method:'POST'},
+        // 'query': {method:'GET', isArray:true},
+        // 'remove': {method:'DELETE'},
+        // 'delete': {method:'DELETE'}
+        update: { method: 'PATCH' },
+        my: { method: 'GET', isArray:true}
+
+        // they're included by default
+    })
+}]);
+
+
+services.factory("Meetings", ['$resource', function ($resource) {
+    return $resource('/api/v1/meetings/:id', { id: '@id' }, {
         //'get': {method:'GET'},
         // 'save': {method:'POST'},
         // 'query': {method:'GET', isArray:true},
