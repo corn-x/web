@@ -1,8 +1,25 @@
-  <h1>Teams</h1>
+<h1>Teams</h1>
 
-  <a href="/#/teams/createTeam" class="btn btn-primary">Create Team</a>
+<a href="/#/teams/createTeam" class="btn btn-primary">Create Team</a>
 
-  <accordion close-others="false">
+<div>
+    <accordion close-others="false">
+        <accordion-group heading="{{team.name}}" ng-repeat="team in pending_invitations">
+            <table class="table table-striped">
+                <tr>
+                    <td> ID: </td>
+                    <td> {{team.id}} </td>
+                    <td> URL </td>
+                    <td> {{team.url}} </td>
+                    <td> YES </td>
+                    <td> NO </td>
+                </tr>
+            </table>
+        </accordion-group>
+    </accordion>
+</div>
+<div>
+    <accordion close-others="false">
         <accordion-group heading="{{team.name}}" ng-repeat="team in my_teams">
             <table class="table table-striped">
                 <tr>
@@ -14,3 +31,4 @@
             </table>
         </accordion-group>
     </accordion>
+</div>

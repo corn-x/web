@@ -67,9 +67,6 @@ app.config(['$routeProvider',
                 controller: 'createMeetingController'
             }).
 
-            when('/home', {
-                controller: 'homeController'
-            }).
             when('/login', {
                 templateUrl: 'templates/login.html',
                 controller: 'UsersCtrl'
@@ -214,9 +211,10 @@ routingiControllers.controller('chooseTimeController', ['$scope', '$routeParams'
 
 
 
-routingiControllers.controller('myTeamsController', ['$scope', '$routeParams', 'Teams',
-    function ($scope, $routeParams, Teams) {
+routingiControllers.controller('myTeamsController', ['$scope', '$routeParams', 'Teams', 'Invitations',
+    function ($scope, $routeParams, Teams, Invitations) {
         $scope.my_teams = Teams.my();
+        $scope.pending_invitations = Invitations.my();
     }]);
 
 routingiControllers.controller('createTeamController', ['$scope', '$routeParams', 'Teams',
@@ -232,12 +230,6 @@ routingiControllers.controller('createTeamController', ['$scope', '$routeParams'
                 alert("Something went wrong.");
             });
         };
-    }]);
-
-
-routingiControllers.controller('homeController', ['$scope', function ($scope) {
-        $scope.message = "Home sweet home!";
-        $scope.teamId = 6;
     }]);
 
 var dyrektywyApp = angular.module('dyrektywy', [])
