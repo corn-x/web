@@ -11,7 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141024213029) do
+ActiveRecord::Schema.define(version: 20141025012427) do
+
+  create_table "events", force: true do |t|
+    t.string   "ext_id"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.integer  "calendar_id"
+    t.string   "calendar_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "events", ["calendar_id"], name: "index_events_on_calendar_id"
+
+  create_table "google_calendars", force: true do |t|
+    t.integer  "user_id"
+    t.string   "ext_id"
+    t.datetime "last_synced"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "google_calendars", ["user_id"], name: "index_google_calendars_on_user_id"
 
   create_table "meetings", force: true do |t|
     t.string   "name"
