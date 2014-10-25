@@ -1,3 +1,5 @@
+require color
+
 class Meeting < ActiveRecord::Base
   belongs_to :team
   belongs_to :creator, class_name: 'User'
@@ -22,7 +24,10 @@ class Meeting < ActiveRecord::Base
           collisions += 1
         end
       end
-      events += {title: collisions, start: previous, end: time, color: '#ff0000'}
+      collisions *= 32
+      collisions.to_s(16)
+      color = '#' + collisions
+      events += {title: collisions, start: previous, end: time, color: color}
       previous = time
     end
   end
