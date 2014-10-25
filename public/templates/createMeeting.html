@@ -1,2 +1,11 @@
+<div ng-controller="createMeetingController">
+    <form novalidate class="form">
+        Name: <input type="text" ng-model="meeting.name" required /><br />
+        Description: <input type="textarea" height="2" ng-model="meeting.description" required /><br />
+        Place: <input type="text" ng-model="meeting.where" required /><br />
+        <button ng-click="create(meeting)">SAVE</button>
+    </form>
+</div>
+
 <div ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="calendar"></div>
 {{ meeting.time_ranges}}

@@ -4,4 +4,6 @@ class TeamMembership < ActiveRecord::Base
   MEMBER='member'
   belongs_to :user
   belongs_to :team, autosave: true
+
+  validates_uniqueness_of :user_id, :scope => [:team_id]
 end

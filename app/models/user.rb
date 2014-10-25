@@ -30,6 +30,9 @@ class User < ActiveRecord::Base
 
   def slice_times(time_ranges)
     times = []
+    if time_ranges.empty?
+      time_ranges << ((Time.now.beginning_of_day)..(Time.now.end_of_day + 1.week))
+    end
     time_ranges.each do |time_range|
       google_calendars.each do |calendar|
         calendar.events.each do |event|
