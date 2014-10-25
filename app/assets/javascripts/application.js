@@ -78,19 +78,19 @@ app.config(['$routeProvider',
 
 var routingiControllers = angular.module('routingiControllers', []);
 
-routingiControllers.controller('meetingsController', ['$scope', '$routeParams','$http','Teams',
-    function ($scope, $routeParams, $http, Teams) {
-        $scope.meetingId = $routeParams.meetingId;
+routingiControllers.controller('meetingsController', ['$scope', '$routeParams', 'Meetings',
+    function ($scope, $routeParams, Meetings) {
+        $scope.meetings = Meetings.my();
     }]);
 
-routingiControllers.controller('teamsController', ['$scope', '$routeParams', '$http',
-    function ($scope, $routeParams, $http) {
+routingiControllers.controller('teamsController', ['$scope', '$routeParams',
+    function ($scope, $routeParams) {
         $scope.teamId = $routeParams.teamId;
     }]);
 
 routingiControllers.controller('createTeamController', ['$scope', '$routeParams',
     function ($scope, $routeParams) {
-        $scope.meetingId = $routeParams.meetingId;
+
     }]);
 
 routingiControllers.controller('myTeamsController', ['$scope', '$routeParams', 'Teams',

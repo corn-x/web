@@ -3,9 +3,13 @@
     <a href="/meetings/createMeeting" class="btn btn-primary">Create Meeting</a>
 
     <accordion close-others="false">
-        <accordion-group heading="{{repo.name}}" ng-repeat="repo in events">
-            {{repo.full_name}}
+        <accordion-group heading="{{meeting.id}}" ng-repeat="meeting in meetings">
+            <table class="table table-striped">
+                <tr>
+                    <td>
+                        {{meeting.url}}
+                    </td>
+                </tr>
+            </table>
         </accordion-group>
     </accordion>
-
-    {{ my_meetings }}
