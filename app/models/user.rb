@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   has_many :google_calendars
+  has_many :team_memberships
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -16,12 +17,23 @@ class User < ActiveRecord::Base
     !events.empty?
   end
 
-  def slice_times
+  def slice_times(time_range)
     times = []
     self.google_calendars.each do |calendar|
       calendar.events.each do |event|
-        times += event.start_time
-        times += event.end_time
+        if time_range.cover?(event.start_time)
+          times += event.start_time
+          if time_range.cover?(event.end_time)
+            times += event.end_time
+          else
+            times += time_range.end
+          end
+        else
+          if time_range.cover?(event.end_time)
+            times += time_range.begin
+            times += event.end_time
+          end
+        end
       end
     end
     times
