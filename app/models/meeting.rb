@@ -5,6 +5,12 @@ class Meeting < ActiveRecord::Base
   belongs_to :creator, class_name: 'User'
   serialize :time_ranges, Array
 
+  validates :team_id, presence: true
+  validates :name, presence: true
+  validates :name, uniqueness: true
+  validates :time_ranges, presence: true
+  validates :time_ranges_must_be_valid
+
   def scheduled?
     !self.start_time.nil? and !self.end_time.nil?
   end
@@ -42,4 +48,13 @@ class Meeting < ActiveRecord::Base
     end
     events
   end
+  private
+  def time_ranges_must_be_valid
+    time_ranges.each do |tr|
+      if tr.begin > tr.end
+        errors.add(:time_ranges, 'begin time cannot be after end time')
+      end
+    end
+  end
 end
+
