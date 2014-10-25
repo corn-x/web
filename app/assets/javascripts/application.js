@@ -30,10 +30,13 @@
 //= require angular-ui-calendar
 //= require qtip2/jquery.qtip
 //= require angular-loading-bar
-//= require_self
 //= require_tree .
+//= require_self
 
-var app = angular.module('routingi', ['ngRoute', 'routingiControllers','ui.bootstrap','dyrektywy','services']);
+
+var rootScope;
+
+var app = angular.module('routingi', ['ngRoute', 'routingiControllers','ui.bootstrap','dyrektywy','services','session-service']);
 app.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
@@ -69,6 +72,10 @@ app.config(['$routeProvider',
 
             when('/home/', {
                 controller: 'homeController'
+            }).
+            when('/login', {
+                templateUrl: 'templates/login.html',
+                controller: 'UsersCtrl'
             }).
 
             otherwise({
