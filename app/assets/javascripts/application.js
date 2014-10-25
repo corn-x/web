@@ -214,7 +214,7 @@ routingiControllers.controller('chooseTimeController', ['$scope', '$routeParams'
 routingiControllers.controller('myTeamsController', ['$scope', '$routeParams', 'Teams', 'Invitations',
     function ($scope, $routeParams, Teams, Invitations) {
         $scope.my_teams = Teams.my();
-        $scope.pending_invitations = Invitations.my();
+        $scope.pending_invitations = Invitations;
     }]);
 
 routingiControllers.controller('createTeamController', ['$scope', '$routeParams', 'Teams',
@@ -263,6 +263,21 @@ services.factory("Meetings", ['$resource', function ($resource) {
         // 'delete': {method:'DELETE'}
         update: { method: 'PATCH' },
         my: { method: 'GET', isArray:true}
+
+        // they're included by default
+    })
+}]);
+
+
+services.factory("Invitations", ['$resource', function ($resource) {
+    return $resource('/api/v1/invitations/my', {
+        'get': {method:'GET'}//,
+        // 'save': {method:'POST'},
+        // 'query': {method:'GET', isArray:true},
+        // 'remove': {method:'DELETE'},
+        // 'delete': {method:'DELETE'}
+       // update: { method: 'PATCH' }//,
+       // my: { method: 'GET', isArray:true}
 
         // they're included by default
     })
