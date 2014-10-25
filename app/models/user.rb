@@ -6,6 +6,10 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  def self.authenticate_with_authentication_token(token)
+    User.find_by_authentication_token!(token)
+  end
+
   def busy?(start_time, end_time)
     events = []
     self.google_calendars.each do |calendar|
