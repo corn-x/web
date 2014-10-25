@@ -1,7 +1,19 @@
 class TeamsController < ApplicationController
-  before_action :set_team, only: [:show, :edit, :update, :destroy, :accept_invitation, :reject_invitation, :add_member]
+  respond_to :json
+  before_action :set_team, only: [:show, :edit, :update, :destroy, :accept_invitation, :reject_invitation, :add_member, :meetings, :members]
   before_action :require_manager, only: [:add_member]
   before_action :authenticate_from_token!
+
+  def members
+    @users = @team.members
+    respond_with @users, template: 'users/index'
+  end
+
+  def meetings
+    @meetings = @team.meetings
+    respond_with @meetings, template: 'meetings/index'
+  end
+
   def add_member
     invitations = add_member_params.map do |id|
       @team.team_memberships.create(user: User.find(id), role: 'invitation')
