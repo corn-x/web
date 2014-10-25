@@ -1,3 +1,5 @@
+require 'color'
+
 class Meeting < ActiveRecord::Base
   belongs_to :team
   belongs_to :creator, class_name: 'User'
@@ -29,10 +31,12 @@ class Meeting < ActiveRecord::Base
             collisions += 1
           end
         end
-        collisions *= 32 #todo calculating color - now it does not work
-        collisions.to_s(16)
-        color = '#' + collisions.to_s
-        events << {title: collisions, start: previous, end: time, color: color}
+        hue = (1 - (collisions / users.size.to_f)) * 0.4
+        events << {
+            title: collisions, start: previous,
+            end: time,
+            color: '#' + Color::HSL.from_fraction(h = hue, s = 0.9, l = 0.9).to_rgb.hex
+        }
       end
       previous = time
     end
