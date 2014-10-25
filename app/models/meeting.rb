@@ -8,8 +8,7 @@ class Meeting < ActiveRecord::Base
   validates :team_id, presence: true
   validates :name, presence: true
   validates :name, uniqueness: true
-  validates :time_ranges, presence: true
-  validate :time_ranges_must_be_valid
+  validate :time_ranges_must_be_valid, if: Proc.new { time_ranges.present? and time_ranges.count > 0 }
 
   def scheduled?
     !self.start_time.nil? and !self.end_time.nil?
