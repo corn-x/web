@@ -15,8 +15,8 @@ class TeamsController < ApplicationController
   end
 
   def add_member
-    invitations = add_member_params.map do |id|
-      @team.team_memberships.create(user: User.find(id), role: 'invitation')
+    invitations = add_member_params.map do |email|
+      @team.team_memberships.create(user: User.find_by_email(email), role: 'invitation')
     end
     render json: invitations
   end
@@ -118,6 +118,6 @@ class TeamsController < ApplicationController
     end
 
     def add_member_params 
-      params[:user_ids]
+      params[:user_emails]
     end
 end
