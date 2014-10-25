@@ -9,7 +9,7 @@ class Meeting < ActiveRecord::Base
   validates :name, presence: true
   validates :name, uniqueness: true
   validates :time_ranges, presence: true
-  validates :time_ranges_must_be_valid
+  validate :time_ranges_must_be_valid
 
   def scheduled?
     !self.start_time.nil? and !self.end_time.nil?
@@ -39,7 +39,8 @@ class Meeting < ActiveRecord::Base
         end
         hue = (1 - (collisions / users.size.to_f)) * 0.4
         events << {
-            title: collisions, start: previous,
+            title: collisions,
+            start: previous,
             end: time,
             color: '#' + Color::HSL.from_fraction(h = hue, s = 0.9, l = 0.9).to_rgb.hex
         }
