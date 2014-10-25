@@ -100,11 +100,20 @@ routingiControllers.controller('teamsController', ['$scope', '$routeParams',
 routingiControllers.controller('createMeetingController', ['$scope', '$routeParams',
     function ($scope, $routeParams) {
 
-/*        $scope.eventSources = [{
-            editable: false,
-            ignoreTimezone: false
-        }];*/
+       $scope.eventSources = [];
+        $scope.open = function(start, end, allDay)  {
+                   $scope.meeting.time_ranges.push({start_time: start, end_time: end});
 
+            $scope.calendar.fullCalendar('renderEvent',
+                {
+                    title: 'placeholder',
+                    start: start,
+                    end: end
+                },
+                true
+            );
+            $scope.calendar.fullCalendar('unselect');
+        };
         $scope.uiConfig = {
             calendar: {
                 selectable: true,
@@ -127,16 +136,9 @@ routingiControllers.controller('createMeetingController', ['$scope', '$routePara
             }
         };
 
-
-        /* event sources array*/
-        $scope.eventSources = [$scope.events, $scope.eventSource, $scope.eventsF];
-        $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];
-
         $scope.meeting = {};
         $scope.meeting.time_ranges = [];
-        $scope.open = function(start, end, allDay)  {
-            $scope.meeting.time_ranges.add({start_time: start, end_time: end});
-        };
+
 
     }]);
 
