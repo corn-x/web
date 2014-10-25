@@ -26,10 +26,6 @@
       div.meetings {
         background-image: url(../common/Meetings.jpg);
       }
-
-      div.invitations {
-        background-image: url(../common/Invitations.jpg);
-      }
       
       div.teams {
         background-image: url(../common/Teams.jpg);
@@ -46,7 +42,6 @@
   <body ng-app='routingi'>
 
     <p><a href='#/meetings/'>Meetings</a> | 
-      <a href='#/invitations/'>Invitations</a> | 
       <a href='#/teams/'>Teams</a>
     </p>
 
@@ -65,10 +60,7 @@
                         templateUrl: 'templates/meetings.html',
                         controller: 'meetingsController'
                       }).
-                      when('/invitations/', {
-                        templateUrl: 'templates/invitations.html',
-                        controller: 'invitationsController'
-                      }).
+                      
                       when('/teams/', {
                         templateUrl: 'templates/teams.html',
                         controller: 'teamsController'
@@ -85,16 +77,9 @@
               $scope.oneId = $routeParams.oneId;
             }]);
           
-          routingiControllers.controller('invitationsController', ['$scope', '$routeParams',
-            function ($scope, $routeParams) {
-              $scope.oneId = $routeParams.oneId;
-              $scope.twoId = $routeParams.twoId;
-            }]);
-          
           routingiControllers.controller('teamsController', ['$scope', '$routeParams',
             function ($scope, $routeParams) {
               $scope.oneId = $routeParams.oneId;
-              $scope.twoId = $routeParams.twoId;
               $scope.threeId = $routeParams.threeId;
             }]);</script>
   </body>
