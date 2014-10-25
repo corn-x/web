@@ -1,12 +1,61 @@
-<!DOCTYPE html>
 <html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style type="text/css">
+      personalinfo {
+        display: block;
+        margin: 20px 200px;
+        padding: 20px;
+        float: none;
+        border: 1px solid silver;
 
-Teams!
+        background-size: auto 90%;
+        background-position: 99% center;
+        background-repeat: no-repeat;
+      }
 
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+  </head>
+
+  <body ng-app='dyrektywy' ng-controller='mainController'>
+    <h1>Teams</h1>
+  <personalinfo ng-repeat="member in teams" name="member"></personalinfo>
+
+  <!-- Ciekawa dyrektywa do szablonów, która pozwala dynamicznie modyfikować arkusz styli w miłej formie!-->
+
+  <script type='text/javascript' language='JavaScript'>
+      var dyrektywyApp = angular.module('dyrektywy', [])
+
+              .controller('mainController', ['$scope', function ($scope) {
+                  
+                   /*
+                    * Zwróćcie uwagę, w jakim kontekście jest dostępna ta funkcja!
+                    */
+                   $scope.getStyles = function(forWho){
+                     return {'background-image': 'url(../common/' + forWho + '.jpg)'};
+                   }
+                   
+                }])
+
+              .directive('personalinfo', function ($http) {
+                return {
+                  templateUrl: 'personalInfo.html',
+                  restrict: 'E',
+                  scope: {
+                    name: '='
+                  },
+                  controller: function ($scope, $http) {
+                    $http.get('/teams/' + $scope.teamId) //szybkie zapytanie, są inne metody
+                            .success(function (data) {
+                              for (index in data) {
+                                $scope[index] = data[index];
+                              }
+                            }); //są dostępne inne rzeczy, jak np. error
+                  }
+                };
+                ;
+              });
+  </script>
 </body>
 </html>
