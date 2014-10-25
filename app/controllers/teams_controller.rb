@@ -64,16 +64,20 @@ class TeamsController < ApplicationController
   # POST /teams
   # POST /teams.json
   def create
-    @tm = current_user.team_memberships.new(role: TeamMembership::MANAGER)
-    @team = @tm.build_team(team_params)
+    ActiveRecord::Base.transaction do
+      @tm = current_user.team_memberships.build(role: TeamMembership::MANAGER)
+      @team = @tm.build_team(team_params)
+      @team.save
+      @tm.team = @team
 
-    respond_to do |format|
-      if @tm.save
-        format.html { redirect_to @tm.team, notice: 'Team was successfully created.' }
-        format.json { render :show, status: :created, location: @tm.team }
-      else
-        format.html { render :new }
-        format.json { render json: @tm.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @tm.save
+          format.html { redirect_to @tm.team, notice: 'Team was successfully created.' }
+          format.json { render :show, status: :created, location: @tm.team }
+        else
+          format.html { render :new }
+          format.json { render json: @tm.errors, status: :unprocessable_entity }
+        end
       end
     end
   end

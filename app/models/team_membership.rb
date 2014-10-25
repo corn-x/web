@@ -3,5 +3,5 @@ class TeamMembership < ActiveRecord::Base
   MANAGER='manager'
   MEMBER='member'
   belongs_to :user
-  belongs_to :team
+  belongs_to :team, autosave: true
 end
