@@ -198,6 +198,8 @@ GEM
       rails-assets-moment (>= 2.0.0, < 2.9.0)
     rails-assets-angular-resource (1.2.26)
       rails-assets-angular (= 1.2.26)
+    rails-assets-angular-route (1.2.26)
+      rails-assets-angular (= 1.2.26)
     rails-assets-angular-translate (2.4.2)
     rails-assets-angular-translate-loader-static-files (2.4.2)
       rails-assets-angular-translate (~> 2.4.2)
@@ -346,6 +348,7 @@ DEPENDENCIES
   rails-assets-angular-loading-bar
   rails-assets-angular-moment
   rails-assets-angular-resource
+  rails-assets-angular-route
   rails-assets-angular-translate
   rails-assets-angular-translate-loader-static-files
   rails-assets-angular-translate-storage-cookie
