@@ -17,10 +17,10 @@ class ApplicationController < ActionController::Base
   private
 
   def authenticate_from_token!
-    if params[:authentication_token].present? and user = User.authenticate_with_feed_token(params[:authentication_token])
+    if params[:authentication_token].present? and user = User.authenticate_with_authentication_token(params[:authentication_token])
       sign_in(:user, user, store: false)
     end
-    authenticate!
+    authenticate_user!
   end
 
 end
