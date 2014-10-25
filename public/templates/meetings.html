@@ -1,6 +1,8 @@
     <h1>Meetings</h1>
 
-    <accordion close-others="true">
+    <a href="/meetings/createMeeting" class="btn btn-primary">Create Meeting</a>
+
+    <accordion close-others="false">
         <accordion-group heading="{{repo.name}}" ng-repeat="repo in events">
             {{repo.full_name}}
         </accordion-group>

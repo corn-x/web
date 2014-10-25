@@ -41,6 +41,7 @@ app.config(['$routeProvider',
                 templateUrl: 'templates/teams.html',
                 controller: 'teamsController'
             }).
+
             when('/meetings/', {
                 templateUrl: 'templates/meetings.html',
                 controller: 'meetingsController'
@@ -56,6 +57,20 @@ app.config(['$routeProvider',
                 controller: 'teamsController'
             }).
 
+            when('/teams/:createTeam/'), {
+                templateUrl: 'templates/createTeam.html'
+                controller: 'createTeamController'
+            }
+
+            when('/meetings/:createMeeting'), {
+                templateUrl: 'templates/createMeeting.html'
+                controller: 'createMeetingController'
+            }
+
+            when('/home/', {
+                controller: 'homeController'
+            }).
+
             otherwise({
                 redirectTo: '/'
             });
@@ -64,9 +79,9 @@ app.config(['$routeProvider',
 var routingiControllers = angular.module('routingiControllers', []);
 
 routingiControllers.controller('meetingsController', ['$scope', '$routeParams','$http',
-    function ($scope, $routeParams,$http) {
+    function ($scope, $routeParams, $http) {
         $scope.meetingId = $routeParams.meetingId;
-        $http.get('https://api.github.com/users/mralexgray/repos') //szybkie zapytanie, są inne metody
+        $http.get('https://api.github.com/users/mralexgray/repos')
             .success(function (data) {
                 $scope.events = data;
             }).error(function(data, status, headers, config) {
@@ -78,7 +93,7 @@ routingiControllers.controller('meetingsController', ['$scope', '$routeParams','
 routingiControllers.controller('teamsController', ['$scope', '$routeParams', '$http',
     function ($scope, $routeParams, $http) {
         $scope.teamId = $routeParams.teamId;
-        $http.get('https://api.github.com/users/mralexgray/repos') //szybkie zapytanie, są inne metody
+        $http.get('https://api.github.com/users/mralexgray/repos')
             .success(function (data) {
                 $scope.teams = data;
             }).error(function(data, status, headers, config) {
@@ -87,6 +102,21 @@ routingiControllers.controller('teamsController', ['$scope', '$routeParams', '$h
             });
     }]);
 
+routingiControllers.controller('createTeamController', ['$scope', '$routeParams','$http',
+    function ($scope, $routeParams,$http) {
+        $scope.meetingId = $routeParams.meetingId;
+    });
+
+routingiControllers.controller('createMeetingController', ['$scope', '$routeParams','$http',
+    function ($scope, $routeParams,$http) {
+        $scope.meetingId = $routeParams.meetingId;
+    });
+
+
+routingiControllers.controller('homeController', ['$scope', function ($scope) {
+        $scope.message = "Home sweet home!";
+        $scope.teamId = 6;
+    }]);
 
 var dyrektywyApp = angular.module('dyrektywy', [])
 
