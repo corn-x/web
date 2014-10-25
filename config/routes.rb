@@ -22,6 +22,9 @@ Rails.application.routes.draw do
         member do
           get 'stats'
         end
+        collection do
+          get 'my'
+        end
       end
     end
   end

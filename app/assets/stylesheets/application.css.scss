@@ -13,3 +13,11 @@
  *= require_tree .
  *= require_self
  */
+
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+@import "angular-loading-bar";
+@import "qtip2/jquery.qtip";
+@import "datetimepicker";
+@import "fullcalendar";
