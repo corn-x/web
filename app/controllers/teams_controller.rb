@@ -17,7 +17,13 @@ class TeamsController < ApplicationController
     else
       render json: nil, status: :not_found
     end
-    
+  end
+
+  def my
+    render json:current_user.team_memberships.where('role = ? or role = ?',TeamMembership::MEMBER,TeamMembership::MANAGER).map do |tm| 
+      tm.team['role'] = tm['role']
+      tm.team
+    end
   end
 
   def reject_invitation
