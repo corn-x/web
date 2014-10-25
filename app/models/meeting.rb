@@ -26,7 +26,7 @@ class Meeting < ActiveRecord::Base
         end
         collisions *= 32
         collisions.to_s(16)
-        color = '#' + collisions
+        color = '#' + collisions.to_s
         events << {title: collisions, start: previous, end: time, color: color}
         previous = time
       end
