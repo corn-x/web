@@ -79,18 +79,19 @@
             }]);
           
           var routingiControllers = angular.module('routingiControllers', []);
-          routingiControllers.controller('oneController', ['$scope', '$routeParams',
+
+          routingiControllers.controller('meetingsController', ['$scope', '$routeParams',
             function ($scope, $routeParams) {
               $scope.oneId = $routeParams.oneId;
             }]);
           
-          routingiControllers.controller('twoController', ['$scope', '$routeParams',
+          routingiControllers.controller('invitationsController', ['$scope', '$routeParams',
             function ($scope, $routeParams) {
               $scope.oneId = $routeParams.oneId;
               $scope.twoId = $routeParams.twoId;
             }]);
           
-          routingiControllers.controller('threeController', ['$scope', '$routeParams',
+          routingiControllers.controller('teamsController', ['$scope', '$routeParams',
             function ($scope, $routeParams) {
               $scope.oneId = $routeParams.oneId;
               $scope.twoId = $routeParams.twoId;
