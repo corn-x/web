@@ -24,11 +24,11 @@ session_service.factory("SessionService", [ '$http', '$q', '$rootScope','$locati
                     //AlertService.add("danger", response.data.error);
                 } else {
                     service.currentUser = response.data;
-                    console.log(response.data);
+                    $location.path('teams');
                     service.broadcastToNav(service.currentUser);
                     //AlertService.clear();
                     //AlertService.add("success", "Logged in", 2000);
-                    $location.path('#/teams');
+                    
                 }
             }), function (response) {
                 //return AlertService.add("danger", response.data.error);
