@@ -14,4 +14,13 @@ class ApplicationController < ActionController::Base
     true || super || form_authenticity_token == request.headers['X-XSRF-TOKEN']
   end
 
+  private
+
+  def authenticate_from_token!
+    if params[:authentication_token].present? and user = User.authenticate_with_feed_token(params[:authentication_token])
+      sign_in(:user, user, store: false)
+    end
+    authenticate!
+  end
+
 end
