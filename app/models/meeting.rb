@@ -8,33 +8,31 @@ class Meeting < ActiveRecord::Base
   end
 
   def solve
-    users = self.team.team_memberships.map { |tm| tm.user }
+    users = team.team_memberships.map { |tm| tm.user }
     slice_times = []
     users.each do |u|
-      slice_times << u.slice_times(self.time_ranges)
+      slice_times += u.slice_times(time_ranges)
+    end
+    time_ranges.each do |time_range|
+      slice_times << time_range.begin
+      slice_times << time_range.end
     end
     slice_times.sort
+    slice_times = slice_times.uniq
     previous = slice_times.first
     events = []
-    unless slice_times.empty?
-      slice_times[1..-1].each do |time|
-        collisions = 0
-        users.each do |u|
-          if u.busy?(previous, time)
-            collisions += 1
-          end
+    slice_times[1..-1].each do |time|
+      collisions = 0
+      users.each do |u|
+        if u.busy?(previous, time)
+          collisions += 1
         end
-        collisions *= 32
-        collisions.to_s(16)
-        color = '#' + collisions.to_s
-        events << {title: collisions, start: previous, end: time, color: color}
-        previous = time
       end
-    end
-    if events.empty?
-      time_ranges.map do |time|
-        events << {title: '0', start: time.begin, end: time.end, color: '#00ff00'}
-      end
+      collisions *= 32
+      collisions.to_s(16)
+      color = '#' + collisions.to_s
+      events << {title: collisions, start: previous, end: time, color: color}
+      previous = time
     end
     events
   end
