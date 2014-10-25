@@ -1,4 +1,5 @@
 class MeetingsController < ApplicationController
+  before_action :authenticate_from_token!
   before_action :set_meeting, only: [:show, :edit, :update, :destroy, :stats]
 
   def stats
