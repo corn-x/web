@@ -1,3 +1,4 @@
+require 'pry'
 class GoogleCalendar < ActiveRecord::Base
   belongs_to :user
   has_many :events, as: :calendar
@@ -20,7 +21,6 @@ class GoogleCalendar < ActiveRecord::Base
 
     calendar = oauth_wrapper.client.discovered_api('calendar', 'v3')
     oauth_wrapper.update_authorization(user)
-
     result = oauth_wrapper.execute(
       api_method: calendar.events.list,
       parameters: {
@@ -30,6 +30,7 @@ class GoogleCalendar < ActiveRecord::Base
         'timeMax' => end_time.iso8601
       }
     )
+    binding.pry
     result.data.items.each do |event|
       dbevent = self.get_events.find_by_ext_id(event.id)
       if dbevent
