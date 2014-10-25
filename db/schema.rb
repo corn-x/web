@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141025124316) do
+ActiveRecord::Schema.define(version: 20141025222259) do
 
   create_table "events", force: true do |t|
     t.string   "ext_id"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 20141025124316) do
     t.datetime "end_time"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "length"
   end
 
   add_index "meetings", ["creator_id"], name: "index_meetings_on_creator_id"
