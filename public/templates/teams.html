@@ -2,7 +2,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <style type="text/css">
-      personalinfo {
+      teaminfo {
         display: block;
         margin: 20px 200px;
         padding: 20px;
@@ -20,7 +20,7 @@
 
   <body ng-app='dyrektywy' ng-controller='mainController'>
     <h1>Teams</h1>
-  <personalinfo ng-repeat="member in teams" name="member"></personalinfo>
+  <teaminfo ng-repeat="team in teams" name="team"></teaminfo>
 
   <!-- Ciekawa dyrektywa do szablonów, która pozwala dynamicznie modyfikować arkusz styli w miłej formie!-->
 
@@ -38,9 +38,9 @@
                    
                 }])
 
-              .directive('personalinfo', function ($http) {
+              .directive('teaminfo', function ($http) {
                 return {
-                  templateUrl: 'personalInfo.html',
+                  templateUrl: 'teaminfo.html',
                   restrict: 'E',
                   scope: {
                     name: '='

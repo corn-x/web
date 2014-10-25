@@ -2,7 +2,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <style type="text/css">
-      personalinfo {
+      meetinginfo {
         display: block;
         margin: 20px 200px;
         padding: 20px;
@@ -20,7 +20,7 @@
 
   <body ng-app='dyrektywy' ng-controller='mainController'>
     <h1>Meetings</h1>
-  <personalinfo ng-repeat="meeting in meetings"</personalinfo>
+  <meetinginfo ng-repeat="meeting in meetings" name ="meeting"></meetinginfo>
 
   <!-- Ciekawa dyrektywa do szablonów, która pozwala dynamicznie modyfikować arkusz styli w miłej formie!-->
 
@@ -38,15 +38,15 @@
                    
                 }])
 
-              .directive('personalinfo', function ($http) {
+              .directive('meetinginfo', function ($http) {
                 return {
-                  templateUrl: 'personalInfo.html',
+                  templateUrl: 'meetinginfo.html',
                   restrict: 'E',
                   scope: {
                     name: '='
                   },
                   controller: function ($scope, $http) {
-                    $http.get('getperson.php?name=' + $scope.name) //szybkie zapytanie, są inne metody
+                    $http.get('/meetings/' + $scope.meetingId) //szybkie zapytanie, są inne metody
                             .success(function (data) {
                               for (index in data) {
                                 $scope[index] = data[index];
