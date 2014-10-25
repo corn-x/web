@@ -16,7 +16,7 @@ class Meeting < ActiveRecord::Base
     slice_times.sort
     previous = slice_times.first
     events = []
-    slice_times.tail.each do |time|
+    slice_times[1..-1].each do |time|
       collisions = 0
       users.each do |u|
         if u.busy?(previous, time)
