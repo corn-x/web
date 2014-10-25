@@ -15,4 +15,15 @@ class User < ActiveRecord::Base
     end
     !events.empty?
   end
+
+  def slice_times
+    times = []
+    self.google_calendars.each do |calendar|
+      calendar.events.each do |event|
+        times += event.start_time
+        times += event.end_time
+      end
+    end
+    times
+  end
 end
