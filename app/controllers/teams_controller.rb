@@ -32,10 +32,11 @@ class TeamsController < ApplicationController
   end
 
   def my
-    render json:current_user.team_memberships.where('role = ? or role = ?',TeamMembership::MEMBER,TeamMembership::MANAGER).map do |tm| 
-      tm.team['role'] = tm['role']
+    @teams = current_user.team_memberships.where('role = ? or role = ?',TeamMembership::MEMBER,TeamMembership::MANAGER).map do |tm| 
+      #tm.team['role'] = tm.role
       tm.team
     end
+    respond_with @teams, template: 'teams/index'
   end
 
   def reject_invitation
