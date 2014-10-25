@@ -38,7 +38,7 @@ var rootScope;
 
 var app = angular.module('routingi', ['ngRoute',
     'routingiControllers',
-    'ui.bootstrap','dyrektywy','services','session-service',]);
+    'ui.bootstrap','dyrektywy','services','session-service']);
 app.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
@@ -92,10 +92,13 @@ routingiControllers.controller('teamsController', ['$scope', '$routeParams',
         $scope.teamId = $routeParams.teamId;
     }]);
 
-routingiControllers.controller('createMeetingController', ['$scope', '$routeParams',
-    function ($scope, $routeParams) {
+routingiControllers.controller('createMeetingController', ['$scope', '$routeParams', 'Meetings',
+    function ($scope, $routeParams, Meetings) {
 
-       $scope.eventSources = [];
+        $scope.eventSources = [];
+        $scope.meeting = {};
+        $scope.meeting.time_ranges = [];
+
         $scope.open = function(start, end, allDay)  {
             var event = {
                     title: 'placeholder',
@@ -120,7 +123,7 @@ routingiControllers.controller('createMeetingController', ['$scope', '$routePara
                 remain.push($scope.meeting.time_ranges[i]);
               }
               $scope.meeting.time_ranges = remain;
-        }
+        };
         $scope.uiConfig = {
             calendar: {
                 selectable: true,
@@ -144,22 +147,31 @@ routingiControllers.controller('createMeetingController', ['$scope', '$routePara
             }
         };
 
-        $scope.meeting = {};
-        $scope.meeting.time_ranges = [];
 
-
+        $scope.create = function(meeting) {
+            Meetings.save(meeting, function() {}, function() {
+                //error
+                alert("Something went wrong.");
+            });
+        };
     }]);
-
-
 
 routingiControllers.controller('myTeamsController', ['$scope', '$routeParams', 'Teams',
     function ($scope, $routeParams, Teams) {
         $scope.my_teams = Teams.my();
     }]);
 
-routingiControllers.controller('createTeamController', ['$scope', '$routeParams',
-    function ($scope, $routeParams) {
+routingiControllers.controller('createTeamController', ['$scope', '$routeParams', 'Teams',
+    function ($scope, $routeParams, Teams) {
 
+        $scope.team = {};
+
+        $scope.create = function(team) {
+            Teams.save(team, function() {}, function() {
+                //error
+                alert("Something went wrong.");
+            });
+        };
     }]);
 
 
