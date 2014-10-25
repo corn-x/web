@@ -3,20 +3,23 @@
 <a href="/#/teams/createTeam" class="btn btn-primary">Create Team</a>
 
 <div>
-    <accordion close-others="false">
-        <accordion-group heading="{{team.name}}" ng-repeat="team in pending_invitations">
-            <table class="table table-striped">
-                <tr>
-                    <td> ID: </td>
-                    <td> {{team.id}} </td>
-                    <td> URL </td>
-                    <td> {{team.url}} </td>
-                    <td> YES </td>
-                    <td> NO </td>
-                </tr>
-            </table>
-        </accordion-group>
-    </accordion>
+    <table class="table table-striped" >
+        <tr ng-repeat="team in pending_invitations">
+            <td> ID: </td>
+            <td> {{team.id}} </td>
+            <td> URL </td>
+            <td> {{team.url}} </td>
+            <td> <a href="/#/api/v1/teams/{{team.id}}/invitation/accept"> YES </a></td>
+            <td> <a href="/#/api/v1/teams/{{team.id}}/invitation/reject"> NO </a> </td>
+        </tr>
+<!--
+            {{team.id}}
+            {{team.url}}
+            <a href="/#/api/v1/teams/{{team.id}}/invitation/accept"> YES </a>
+            <a href="/#/api/v1/teams/{{team.id}}/invitation/reject"> NO </a>
+-->
+
+    </table>
 </div>
 <div>
     <accordion close-others="false">
