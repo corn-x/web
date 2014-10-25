@@ -51,12 +51,7 @@ app.config(['$routeProvider',
                 templateUrl: 'templates/meetings.html',
                 controller: 'meetingsController'
             }).
-/*
-            when('/meetings/my/', {
-                templateUrl: 'templates/meetings.html',
-                controller: 'meetingsController'
-            }).
-*/
+
             when('/teams/my/', {
                 templateUrl: 'templates/teams.html',
                 controller: 'myTeamsController'
@@ -72,9 +67,11 @@ app.config(['$routeProvider',
                 controller: 'createMeetingController'
             }).
 
-            when('/home/', {
-                controller: 'homeController'
+            when('/teams/createTeam', {
+                templateUrl: 'templates/createTeam.html',
+                controller: 'createTeamController'
             }).
+
             when('/login', {
                 templateUrl: 'templates/login.html',
                 controller: 'UsersCtrl'
@@ -97,12 +94,15 @@ routingiControllers.controller('teamsController', ['$scope', '$routeParams',
         $scope.teamId = $routeParams.teamId;
     }]);
 
-routingiControllers.controller('createMeetingController', ['$scope', '$routeParams',
-    function ($scope, $routeParams) {
+routingiControllers.controller('createMeetingController', ['$scope', '$routeParams', 'Meetings',
+    function ($scope, $routeParams, Meetings) {
 
-       $scope.eventSources = [];
+        $scope.eventSources = [];
+        $scope.meeting = {};
+        $scope.meeting.time_ranges = [];
+
         $scope.open = function(start, end, allDay)  {
-                   $scope.meeting.time_ranges.push({start_time: start, end_time: end});
+            $scope.meeting.time_ranges.push({start_time: start, end_time: end});
 
             $scope.calendar.fullCalendar('renderEvent',
                 {
@@ -136,28 +136,31 @@ routingiControllers.controller('createMeetingController', ['$scope', '$routePara
             }
         };
 
-        $scope.meeting = {};
-        $scope.meeting.time_ranges = [];
+        $scope.create = function(meeting) {
 
-
+            Meetings.save(meeting, function () {}, function () {
+                //error
+                alert("Something gone wrong :/");
+            });
+        };
     }]);
 
 
+routingiControllers.controller('createTeamController', ['$scope', '$routeParams', 'Teams',
+    function ($scope, $routeParams, Teams) {
+        $scope.team = {};
+
+        $scope.create = function(team) {
+            Teams.save(team, function () {}, function () {
+                //error
+                alert("Something gone wrong :/");
+            });
+        };
+    }]);
 
 routingiControllers.controller('myTeamsController', ['$scope', '$routeParams', 'Teams',
     function ($scope, $routeParams, Teams) {
         $scope.my_teams = Teams.my();
-    }]);
-
-routingiControllers.controller('createTeamController', ['$scope', '$routeParams',
-    function ($scope, $routeParams) {
-
-    }]);
-
-
-routingiControllers.controller('homeController', ['$scope', function ($scope) {
-        $scope.message = "Home sweet home!";
-        $scope.teamId = 6;
     }]);
 
 var dyrektywyApp = angular.module('dyrektywy', [])
@@ -182,7 +185,6 @@ services.factory("Teams", ['$resource', function ($resource) {
         // they're included by default
     })
 }]);
-
 
 services.factory("Meetings", ['$resource', function ($resource) {
     return $resource('/api/v1/meetings/:id', { id: '@id' }, {
