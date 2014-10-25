@@ -1,6 +1,7 @@
 class Meeting < ActiveRecord::Base
   belongs_to :team
   belongs_to :creator, class_name: 'User'
+  serialize :time_ranges, Array
 
   def scheduled?
     !self.start_time.nil? and !self.end_time.nil?
