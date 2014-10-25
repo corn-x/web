@@ -5,4 +5,6 @@ class Meeting < ActiveRecord::Base
   def scheduled?
     !self.start_time.nil? and !self.end_time.nil?
   end
+
+  
 end
