@@ -3,6 +3,11 @@ class UsersController < ApplicationController
   before_action :authenticate_from_token!
   before_action :require_same_user, only:[:update]
 
+
+  def current
+    render json: current_user
+  end
+
   # GET /users
   # GET /users.json
   def index

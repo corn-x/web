@@ -39,6 +39,9 @@ var rootScope;
 var app = angular.module('routingi', ['ngRoute',
     'routingiControllers',
     'ui.bootstrap','dyrektywy','services','session-service']);
+app.run(['$rootScope', function ($rootScope)    {
+    rootScope = $rootScope;
+}]);
 app.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
@@ -69,7 +72,7 @@ app.config(['$routeProvider',
 
             when('/login', {
                 templateUrl: 'templates/login.html',
-                controller: 'UsersCtrl'
+                controller: 'loginCtrl'
             }).
 
             when('/meetings/:id/chooseTime', {
@@ -78,11 +81,47 @@ app.config(['$routeProvider',
             }).
 
             otherwise({
-                redirectTo: '/'
+                redirectTo: '/login'
             });
     }]);
 
 var routingiControllers = angular.module('routingiControllers', ['ui.calendar','ui.bootstrap']);
+
+routingiControllers.controller('loginCtrl', ['$scope', '$routeParams','SessionService',
+    function ($scope, $routeParams,SessionService) {
+        $scope.login = function (user) {
+            return SessionService.login(user.email, user.password, user.remember_me);
+        };
+
+    }]);
+
+routingiControllers.controller('NavCtrl', ['$scope', '$routeParams','SessionService','$rootScope',
+    function ($scope, $routeParams,SessionService,$rootScope) {
+        $scope.getCurrentUser = function () {
+            SessionService.requestCurrentUser().then(function (current_user) {
+                if (current_user === null) {
+                    return;
+                }
+                return $scope.current_user = current_user;
+            });
+        };
+        $rootScope.$on("refreshUser", function (event, my_user) {
+            var current_user;
+            current_user = my_user.my_user;
+            if (current_user === null) {
+                return $scope.current_user = "";
+            }
+            
+            $scope.current_user = current_user;
+
+        });
+        $scope.getCurrentUser();
+        $scope.logout = function () {
+            if ($scope.source != null)
+                $scope.source.close();
+            return SessionService.logout();
+        };
+    }]);
 
 routingiControllers.controller('meetingsController', ['$scope', '$routeParams', 'Meetings',
     function ($scope, $routeParams, Meetings) {

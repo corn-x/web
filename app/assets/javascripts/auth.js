@@ -13,7 +13,7 @@ session_service.factory("SessionService", [ '$http', '$q', '$rootScope','$locati
          * @param remember_me true or false (null==false)
          */
         login: function (email, password, remember_me) {
-            return $http.post("/api/v1/users/sign_in", {
+            return $http.post("/api/v1/users/sign_in.json", {
                 user: {
                     email: email,
                     password: password,
@@ -24,10 +24,11 @@ session_service.factory("SessionService", [ '$http', '$q', '$rootScope','$locati
                     //AlertService.add("danger", response.data.error);
                 } else {
                     service.currentUser = response.data;
+                    console.log(response.data);
                     service.broadcastToNav(service.currentUser);
                     //AlertService.clear();
                     //AlertService.add("success", "Logged in", 2000);
-                    $location.path('/');
+                    $location.path('#/teams');
                 }
             }), function (response) {
                 //return AlertService.add("danger", response.data.error);
@@ -37,12 +38,12 @@ session_service.factory("SessionService", [ '$http', '$q', '$rootScope','$locati
          * Logout from session for devise in rails
          */
         logout: function () {
-            return $http["delete"]("/api/v1/users/sign_out").then(function () {
+            return $http["get"]("/api/v1/users/sign_out").then(function () {
                 service.currentUser = null;
                 service.broadcastToNav(null);
                 //AlertService.clear();
                 //AlertService.add("warning", "Successfully logged out", 2000);
-                $state.go('login');
+                $location.go('/');
             });
         },
         /**
@@ -96,7 +97,7 @@ session_service.factory("SessionService", [ '$http', '$q', '$rootScope','$locati
             if (service.currentUser !== null) {
                 return $q.when(service.currentUser);
             } else {
-                return $http.get("/api/v1/users/current_user").then(function (response) {
+                return $http.get("/api/v1/users/current").then(function (response) {
                     service.currentUser = response.data;
                     return service.currentUser;
                 });
