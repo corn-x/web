@@ -9,6 +9,7 @@
                     <td>Description: {{meeting.description}}</td>
                     <td>Begin: {{meeting.start_time}}</td>
                     <td>End: {{meeting.end_time}}</td>
+                    <td ng-show="{{!meeting['scheduled?']}}"><a href="#/meetings/{{meeting.id}}/chooseTime">Choose Time</a></td>
                 </tr>
             </table>
         </accordion-group>

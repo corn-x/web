@@ -244,8 +244,8 @@ routingiControllers.controller('createMeetingController', ['$scope', '$location'
         };
     }]);
 
-routingiControllers.controller('chooseTimeController', ['$scope', '$routeParams',
-    function ($scope, $routeParams) {
+routingiControllers.controller('chooseTimeController', ['$scope', '$routeParams','Meetings',
+    function ($scope, $routeParams,Meetings) {
 
         var id = $routeParams.id;
 
@@ -256,7 +256,20 @@ routingiControllers.controller('chooseTimeController', ['$scope', '$routeParams'
         }];
 
         $scope.meeting = {};
-        $scope.meeting.time_ranges = [];
+
+        $scope.open = function(start, end, allDay)  {
+            var event = {
+                    title: 'Chosen time',
+                    start: start,
+                    end: end,
+                    id: Math.random().toString(36).substring(7)
+                };
+            //$scope.calendar.fullCalendar('renderEvent', event, true);
+            $scope.meeting.start_time = event.start;
+            $scope.meeting.end_time = event.end;
+            
+            //$scope.calendar.fullCalendar('unselect');
+        };
 
         $scope.eventRender = function(event, element) {
             if(event.color)
@@ -264,16 +277,8 @@ routingiControllers.controller('chooseTimeController', ['$scope', '$routeParams'
         };
 
         $scope.eventClick = function(event) {
-            console.log(event);
             $scope.calendar.fullCalendar('removeEvents', event.id);
-            var remain = [];
-              for(var i in $scope.meeting.time_ranges){
-                if($scope.meeting.time_ranges[i].event.id == event.id){
-                  continue;
-                }
-                remain.push($scope.meeting.time_ranges[i]);
-              }
-              $scope.meeting.time_ranges = remain;
+            
         };
         $scope.uiConfig = {
             calendar: {
@@ -298,19 +303,37 @@ routingiControllers.controller('chooseTimeController', ['$scope', '$routeParams'
             }
         };
 
-    }]);
+        $scope.approve = function() {
+            Meetings.update({id: $routeParams.id}, $scope.meeting);
+            $location.path("meetings");
+        };
 
+    }]);
+    
 
 
 routingiControllers.controller('myTeamsController', ['$scope', '$routeParams',
-    'Teams', 'Invitations', 'Users',
-    function ($scope, $routeParams, Teams, Invitations, Users) {
-
+    'Teams', 'Invitations', 'Users','$http',
+    function ($scope, $routeParams, Teams, Invitations, Users, $http) {
         // send invitations to chosen
 
         $scope.my_teams = Teams.my();
         $scope.pending_invitations = Invitations.my();
-        $scope.users = Users.all;
+        $scope.users = Users.query();
+        $scope.add_member = function(team,user) {
+            $http.post('/api/v1/teams/'+team.id+'/members/add', {user_emails: [user.email]}).
+              success(function(data, status, headers, config) {
+                // this callback will be called asynchronously
+                // when the response is available
+                alert("Dodano pomyślnie");
+                team.members.push(user);
+              }).
+              error(function(data, status, headers, config) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                alert("Błąd");
+              });
+        };
     }]);
 
 routingiControllers.controller('createTeamController', ['$scope', '$routeParams', 'Teams','$location',

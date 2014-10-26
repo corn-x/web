@@ -59,6 +59,7 @@ class TeamsController < ApplicationController
   # GET /teams.json
   def index
     @teams = Team.all
+    respond_with @teams, template: 'teams/index'
   end
 
   # GET /teams/1

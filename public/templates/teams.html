@@ -17,11 +17,20 @@
             <table class="table table-striped">
                 <tr>
 
-                    <td> Dodaj </td>
-                    <td> <select id="users" ng-model="user_email" class="form-control" ng-options="user.id as user.name for user in users"></select> </td>
+                    <td>  </td>
+                    <td> <select id="users" ng-model="user" class="form-control" ng-options="user as user.email for user in users"></select> </td>
+                    <td><button class="btn btn-success beton pull-right" ng-click="add_member(team,user)">Add Members</button></td>
+                </tr>
+                <tr>
+                <td>Members</td>
+                </tr>
+                <tr ng-repeat="member in team.members">
+                <td>{{member.email}}</td>
+                <td>{{member.first_name}} {{member.last_name}}</td>
+                <td></td>
                 </tr>
             </table>
         </accordion-group>
     </accordion>
 </div>
-</div>
+</div> 
