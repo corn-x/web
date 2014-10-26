@@ -36,20 +36,19 @@ class Meeting < ActiveRecord::Base
     previous = slice_times.first
     events = []
     slice_times[1..-1].each do |time|
-      unless time.day != previous.day
-        collisions = 0
-        users.each do |u|
-          if u.busy?(previous, time)
-            collisions += 1
-          end
+      collisions = 0
+      users.each do |u|
+        if u.busy?(previous, time)
+          collisions += 1
         end
-        hue = (1 - (collisions / users.size.to_f)) * 0.3
-        events << {
-            title: collisions,
-            start: previous,
-            end: time,
-            color: '#' + Color::HSL.from_fraction(h = hue, s = 0.9, l = 0.7).to_rgb.hex
-        }
+      end
+      hue = (1 - (collisions / users.size.to_f)) * 0.3
+      color = '#' + Color::HSL.from_fraction(h = hue, s = 0.9, l = 0.7).to_rgb.hex
+      if time.day != previous.day
+        events << { title: collisions, start: previous, end: previous.end_of_day, color: color }
+        events << { title: collisions, start: time.beginning_of_day, end: time, color: color }
+      else
+        events << { title: collisions, start: previous, end: time, color: color }
       end
       previous = time
     end
