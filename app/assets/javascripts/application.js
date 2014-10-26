@@ -80,6 +80,11 @@ app.config(['$routeProvider',
                 controller: 'chooseTimeController'
             }).
 
+            when('/register', {
+                templateUrl: 'templates/register.html',
+                controller: 'registerCtrl'
+            }).
+
             otherwise({
                 redirectTo: '/login'
             });
@@ -88,9 +93,17 @@ app.config(['$routeProvider',
 var routingiControllers = angular.module('routingiControllers', ['ui.calendar','ui.bootstrap']);
 
 routingiControllers.controller('loginCtrl', ['$scope', '$routeParams','SessionService',
-    function ($scope, $routeParams,SessionService) {
+    function ($scope, $routeParams, SessionService) {
         $scope.login = function (user) {
             return SessionService.login(user.email, user.password, user.remember_me);
+        };
+
+    }]);
+
+routingiControllers.controller('registerCtrl', ['$scope', '$routeParams','SessionService',
+    function ($scope, $routeParams, SessionService) {
+        $scope.create = function (user) {
+            return SessionService.register(user);
         };
 
     }]);

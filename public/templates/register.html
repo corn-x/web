@@ -1,7 +1,9 @@
 <div class="login-container">
 
-    <form name="form" class="auth-form" ng-submit="create(user)">
-        <h2 class="auth-form-heading">Sign up</h2><br/>
+    <img src="../images/meetly.png" alt="Logo" />
+    <h1><span>Sign up</span></h1>
+
+    <form name="loginForm" class="loginForm" ng-submit="register(user)">
 
         <div class="form-group">
             <label for="first_name">First name</label>
@@ -28,12 +30,12 @@
         </div>
 
         <div class="form-group">
-            <label for="confirm_password">Conform password</label>
+            <label for="confirm_password">Confirm password</label>
             <input type="password" name="confirm_password" id="confirm_password" class="form-control"
-                   ng-model="user.password" required>
+                   ng-model="user.confirm_password" required>
         </div>
 
-        <input class="btn btn-large btn-primary" type="submit"
+        <input class="btn btn-large btn-block btn-primary" type="submit"
                value="Sign up"/>
 
         <div class="remembrance errors help-block" ng-show="form.$error.server">Error in the form</div>
