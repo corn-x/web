@@ -23,6 +23,14 @@ class Meeting < ActiveRecord::Base
 
   def solve
     users = team.team_memberships.map { |tm| tm.user }
+    tr_ends = []
+    if time_ranges.empty?
+      time_ranges << ((Time.now.beginning_of_day)..(Time.now.end_of_day + 1.week))
+    else
+      time_ranges.each do |tr|
+        tr_ends << tr.end
+      end
+    end
     slice_times = []
     users.each do |u|
       slice_times += u.slice_times(time_ranges)
@@ -36,15 +44,17 @@ class Meeting < ActiveRecord::Base
     previous = slice_times.first
     events = []
     slice_times[1..-1].each do |time|
-      collisions = 0
-      users.each do |u|
-        if u.busy?(previous, time)
-          collisions += 1
+      unless tr_ends.include? previous
+        collisions = 0
+        users.each do |u|
+          if u.busy?(previous, time)
+            collisions += 1
+          end
         end
+        hue = (1 - (collisions / users.size.to_f)) * 0.3
+        color = '#' + Color::HSL.from_fraction(h = hue, s = 0.9, l = 0.7).to_rgb.hex
+        events << { title: collisions, start: previous, end: time, color: color }
       end
-      hue = (1 - (collisions / users.size.to_f)) * 0.3
-      color = '#' + Color::HSL.from_fraction(h = hue, s = 0.9, l = 0.7).to_rgb.hex
-      events << { title: collisions, start: previous, end: time, color: color }
       previous = time
     end
     events

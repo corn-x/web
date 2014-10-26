@@ -51,8 +51,8 @@ class TeamsController < ApplicationController
   end
 
   def my_invitations
-    invitations = TeamMembership.where('user_id = ? and role = ?', current_user.id, TeamMembership::INVITATION)
-    render json: invitations
+    @teams = TeamMembership.where('user_id = ? and role = ?', current_user.id, TeamMembership::INVITATION).map(&:team)
+    respond_with @teams, template: 'teams/index'
   end
 
   # GET /teams
