@@ -261,11 +261,7 @@ routingiControllers.controller('myTeamsController', ['$scope', '$routeParams', '
 
 routingiControllers.controller('createTeamController', ['$scope', '$routeParams', 'Teams',
     function ($scope, $routeParams, Teams) {
-
         $scope.team = {};
-
-        var name = $scope.team.name;
-
         $scope.create = function(team) {
             Teams.save(team, function() {}, function() {
                 //error
