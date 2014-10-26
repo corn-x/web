@@ -33,7 +33,7 @@
 //= require_tree .
 //= require_self
 
-
+var test;
 var rootScope;
 
 var app = angular.module('routingi', ['ngRoute',
@@ -140,8 +140,7 @@ routingiControllers.controller('createMeetingController', ['$scope', '$routePara
     function ($scope, $routeParams, Meetings) {
 
         $scope.eventSources = [];
-        $scope.meeting = {};
-        $scope.meeting.time_ranges = [];
+        $scope.time_ranges = [];
 
         $scope.open = function(start, end, allDay)  {
             var event = {
@@ -151,7 +150,7 @@ routingiControllers.controller('createMeetingController', ['$scope', '$routePara
                     id: Math.random().toString(36).substring(7)
                 };
             $scope.calendar.fullCalendar('renderEvent', event, true);
-            $scope.meeting.time_ranges.push({start_time: start, end_time: end, event:event});
+            $scope.time_ranges.push({start_time: start, end_time: end, event:event});
 
             
             $scope.calendar.fullCalendar('unselect');
@@ -160,13 +159,14 @@ routingiControllers.controller('createMeetingController', ['$scope', '$routePara
             console.log(event);
             $scope.calendar.fullCalendar('removeEvents', event.id);
             var remain = [];
-              for(var i in $scope.meeting.time_ranges){
-                if($scope.meeting.time_ranges[i].event.id == event.id){
+              for(var i in $scope.time_ranges){
+                if($scope.time_ranges[i].event.id == event.id){
                   continue;
                 }
-                remain.push($scope.meeting.time_ranges[i]);
+                remain.push($scope.time_ranges[i]);
               }
-              $scope.meeting.time_ranges = remain;
+              $scope.time_ranges = remain;
+              console.log(remain);  
         };
         $scope.uiConfig = {
             calendar: {
@@ -190,10 +190,10 @@ routingiControllers.controller('createMeetingController', ['$scope', '$routePara
                 timezone: 'local'
             }
         };
-
-
-        $scope.create = function(meeting) {
-            Meetings.save(meeting, function() {}, function() {
+        test = $scope;
+        $scope.create = function() {
+            //$scope.meeting.time_ranges = $scope.time_ranges;
+            Meetings.save(angular.extend($scope.meeting,{time_ranges:$scope.time_ranges}), function() {}, function() {
                 //error
                 alert("Something went wrong.");
             });
