@@ -105,7 +105,7 @@ routingiControllers.controller('loginCtrl', ['$scope', '$routeParams','SessionSe
 
 routingiControllers.controller('registerCtrl', ['$scope', '$routeParams','SessionService',
     function ($scope, $routeParams, SessionService) {
-        $scope.create = function (user) {
+        $scope.register = function (user) {
             return SessionService.register(user);
         };
 
