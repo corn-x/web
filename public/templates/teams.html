@@ -24,6 +24,8 @@
                     <td> {{team.id}} </td>
                     <td> URL </td>
                     <td> {{team.url}} </td>
+                    <td> Dodaj </td>
+                    <td> <select id="users" ng-model="user_email" class="form-control" ng-options="user.id as user.name for user in users"></select> </td>
                 </tr>
             </table>
         </accordion-group>

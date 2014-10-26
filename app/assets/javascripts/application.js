@@ -269,10 +269,32 @@ routingiControllers.controller('chooseTimeController', ['$scope', '$routeParams'
 
 
 
-routingiControllers.controller('myTeamsController', ['$scope', '$routeParams', 'Teams', 'Invitations',
-    function ($scope, $routeParams, Teams, Invitations) {
+routingiControllers.controller('myTeamsController', ['$scope', '$routeParams',
+    'Teams', 'Invitations', 'Users',
+    function ($scope, $routeParams, Teams, Invitations, Users) {
+
+        var chosen = [];
+
+        function addSelectedItem() {
+            var item =function showSelectedItem() {
+                var item = document.getElementById("select").value;
+                document.getElementById("current").innerHTML = item;
+                chosen.push(item);
+            };
+
+            document.getElementById("select").addEventListener("change", showSelectedItem);
+            document.getElementById("current").innerHTML = item;
+            chosen.push()
+        }
+
+        document.getElementById("select")
+            .addEventListener("change", showSelectedItem);
+
+        // send invitations to chosen
+
         $scope.my_teams = Teams.my();
-        $scope.pending_invitations = Invitations;
+        $scope.pending_invitations = Invitations.query();
+        $scope.users = Users.all;
     }]);
 
 routingiControllers.controller('createTeamController', ['$scope', '$routeParams', 'Teams',
@@ -333,6 +355,20 @@ services.factory("Invitations", ['$resource', function ($resource) {
         // 'delete': {method:'DELETE'}
        // update: { method: 'PATCH' }//,
        // my: { method: 'GET', isArray:true}
+
+        // they're included by default
+    })
+}]);
+
+services.factory("Users", ['$resource', function ($resource) {
+    return $resource('/api/v1/users', {
+        'get': {method:'GET'}//,
+        // 'save': {method:'POST'},
+        // 'query': {method:'GET', isArray:true},
+        // 'remove': {method:'DELETE'},
+        // 'delete': {method:'DELETE'}
+        // update: { method: 'PATCH' }//,
+        // my: { method: 'GET', isArray:true}
 
         // they're included by default
     })
