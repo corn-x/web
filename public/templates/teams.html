@@ -4,10 +4,12 @@
     <a href="/#/teams/createTeam" class="btn btn-success beton pull-right">Create Team</a>
 <div class="clearfix"></div>
 <div>
+    <h1 ng-show="pending_invitations[0]">Pending invitations</h1>
     <table class="table table-striped" >
         <tr ng-repeat="team in pending_invitations">
-            <td> <a href="/#/api/v1/teams/{{team.id}}/invitation/accept"> YES </a></td>
-            <td> <a href="/#/api/v1/teams/{{team.id}}/invitation/reject"> NO </a> </td>
+            <td> {{team.name}}</td>
+            <td> <button class="btn btn-success beton" ng-click="accept(team)">Accept</button></td>
+            <td> <button class="btn btn-success beton" ng-click="reject(team)">Reject</button> </td>
         </tr>
     </table>
 </div>

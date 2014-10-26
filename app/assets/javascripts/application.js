@@ -313,25 +313,55 @@ routingiControllers.controller('chooseTimeController', ['$scope', '$routeParams'
 
 
 routingiControllers.controller('myTeamsController', ['$scope', '$routeParams',
-    'Teams', 'Invitations', 'Users','$http',
-    function ($scope, $routeParams, Teams, Invitations, Users, $http) {
+    'Teams', 'Invitations', 'Users','$http','$location',
+    function ($scope, $routeParams, Teams, Invitations, Users, $http,$location) {
         // send invitations to chosen
 
         $scope.my_teams = Teams.my();
         $scope.pending_invitations = Invitations.my();
         $scope.users = Users.query();
+        $scope.accept = function(team) {
+            $http.get('/api/v1/teams/'+team.id+'/invitation/accept',{}).
+            success(function(data, status, headers, config) {
+                // this callback will be called asynchronously
+                // when the response is available
+                alert("Accepted successfully");
+                        $scope.my_teams = Teams.my();
+        $scope.pending_invitations = Invitations.my();
+              }).
+              error(function(data, status, headers, config) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                alert("Error");
+              });
+        };
+        $scope.reject = function(team) {
+            $http.get('/api/v1/teams/'+team.id+'/invitation/reject',{}).
+            success(function(data, status, headers, config) {
+                // this callback will be called asynchronously
+                // when the response is available
+                alert("Rejected successfully");
+                        $scope.my_teams = Teams.my();
+        $scope.pending_invitations = Invitations.my();
+              }).
+              error(function(data, status, headers, config) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                alert("Error");
+              });
+        };
         $scope.add_member = function(team,user) {
             $http.post('/api/v1/teams/'+team.id+'/members/add', {user_emails: [user.email]}).
               success(function(data, status, headers, config) {
                 // this callback will be called asynchronously
                 // when the response is available
-                alert("Dodano pomyślnie");
+                alert("Added successfully");
                 team.members.push(user);
               }).
               error(function(data, status, headers, config) {
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.
-                alert("Błąd");
+                alert("Error");
               });
         };
     }]);
