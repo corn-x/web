@@ -43,7 +43,7 @@ session_service.factory("SessionService", [ '$http', '$q', '$rootScope','$locati
                 service.broadcastToNav(null);
                 //AlertService.clear();
                 //AlertService.add("warning", "Successfully logged out", 2000);
-                $location.go('/');
+                $location.path('/');
             });
         },
         /**
@@ -84,6 +84,25 @@ session_service.factory("SessionService", [ '$http', '$q', '$rootScope','$locati
             }).then(function (response) {
                 if (response.status === 204) {
                     $state.go('login');
+                }
+                return response;
+            });
+        },
+
+        register: function(user) {
+            return $http.post("/api/v1/users", {
+                user: {
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    email: user.email,
+                    password: user.password,
+                    confirm_password: user.confirm_password
+                }
+            }).then(function (response) {
+                if (response.status === 201) {
+                    $location.path('login');
+                } else {
+                     alert("Something went wrong.");
                 }
                 return response;
             });
@@ -174,14 +193,14 @@ session_service.controller('UsersCtrl', [
          * Invokes SessionService.register()
          * @param user {object} with parameters from form (no template)
          */
-        $scope.register = function (user) {
+/*        $scope.register = function (user) {
             // AlertService.clear();
             SessionService.register(user.email, user.password, user.confirm_password, user.type).then((function (response) {
                 // return AlertService.add("success", "Registered");
             }), function (response) {
                 // return AlertService.processErrors(response, $scope);
             });
-        };
+        };*/
         /**
          * Reset password after email enter
          * Invokes SessionService.reset()

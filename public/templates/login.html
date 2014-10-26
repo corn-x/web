@@ -3,7 +3,6 @@
     <img src="../images/meetly.png" alt="Logo" />
     <h1><span>Log in</span></h1>
 
-
     <form name="loginForm" class="loginForm" ng-submit="login(user)">
 
         <div class="form-group">
@@ -18,16 +17,12 @@
                    ng-model="user.password" required>
         </div>
 
-
         <div class="checkbox">
             <label class="checkbox" for="remember_me">
                 <input type="checkbox" value="true" id="remember_me" name="remember_me" ng-model="user.remember_me">Remember me</label>
         </div>
 
-        
-
         <button class="btn btn-large btn-block btn-success" type="submit">Log in</button>
-
         <!-- <p>
             <a ui-sref="password_reset"></a>
         </p> -->

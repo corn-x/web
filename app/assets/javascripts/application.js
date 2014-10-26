@@ -92,6 +92,11 @@ app.config(['$routeProvider',
                 templateUrl: 'templates/root.html'
             }).
 
+            when('/register', {
+                templateUrl: 'templates/register.html',
+                controller: 'registerCtrl'
+            }).
+
             otherwise({
                 redirectTo: '/'
             });
@@ -100,9 +105,17 @@ app.config(['$routeProvider',
 var routingiControllers = angular.module('routingiControllers', ['ui.calendar','ui.bootstrap']);
 
 routingiControllers.controller('loginCtrl', ['$scope', '$routeParams','SessionService',
-    function ($scope, $routeParams,SessionService) {
+    function ($scope, $routeParams, SessionService) {
         $scope.login = function (user) {
             return SessionService.login(user.email, user.password, user.remember_me);
+        };
+
+    }]);
+
+routingiControllers.controller('registerCtrl', ['$scope', '$routeParams','SessionService',
+    function ($scope, $routeParams, SessionService) {
+        $scope.register = function (user) {
+            return SessionService.register(user);
         };
 
     }]);
@@ -287,10 +300,32 @@ routingiControllers.controller('chooseTimeController', ['$scope', '$routeParams'
 
 
 
-routingiControllers.controller('myTeamsController', ['$scope', '$routeParams', 'Teams', 'Invitations',
-    function ($scope, $routeParams, Teams, Invitations) {
+routingiControllers.controller('myTeamsController', ['$scope', '$routeParams',
+    'Teams', 'Invitations', 'Users',
+    function ($scope, $routeParams, Teams, Invitations, Users) {
+
+        var chosen = [];
+
+        function addSelectedItem() {
+            var item =function showSelectedItem() {
+                var item = document.getElementById("select").value;
+                document.getElementById("current").innerHTML = item;
+                chosen.push(item);
+            };
+
+            document.getElementById("select").addEventListener("change", showSelectedItem);
+            document.getElementById("current").innerHTML = item;
+            chosen.push()
+        }
+
+        document.getElementById("select")
+            .addEventListener("change", showSelectedItem);
+
+        // send invitations to chosen
+
         $scope.my_teams = Teams.my();
-        $scope.pending_invitations = Invitations;
+        $scope.pending_invitations = Invitations.query();
+        $scope.users = Users.all;
     }]);
 
 routingiControllers.controller('createTeamController', ['$scope', '$routeParams', 'Teams',
@@ -356,9 +391,14 @@ services.factory("Invitations", ['$resource', function ($resource) {
     })
 }]);
 
+
 services.factory("Calendars", ['$resource', function ($resource) {
     return $resource('/api/v1/calendars/:id', { id: '@id' }, {
         //'get': {method:'GET'},
+    })
+}]);
+services.factory("Users", ['$resource', function ($resource) {
+    return $resource('/api/v1/users', {
         // 'save': {method:'POST'},
         // 'query': {method:'GET', isArray:true},
         // 'remove': {method:'DELETE'},

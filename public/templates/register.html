@@ -1,0 +1,43 @@
+<div class="login-container">
+
+    <img src="../images/meetly.png" alt="Logo" />
+    <h1><span>Sign up</span></h1>
+
+    <form name="loginForm" class="loginForm" ng-submit="register(user)">
+
+        <div class="form-group">
+            <label for="first_name">First name</label>
+            <input type="text" name="first_name" id="first_name" class="form-control"
+                   ng-model="user.first_name" required autofocus>
+        </div>
+
+        <div class="form-group">
+            <label for="last_name">Last name</label>
+            <input type="text" name="last_name" id="last_name" class="form-control"
+                   ng-model="user.last_name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" class="form-control"
+                   ng-model="user.email" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" class="form-control"
+                   ng-model="user.password" required>
+        </div>
+
+        <div class="form-group">
+            <label for="confirm_password">Confirm password</label>
+            <input type="password" name="confirm_password" id="confirm_password" class="form-control"
+                   ng-model="user.confirm_password" required>
+        </div>
+
+        <input class="btn btn-large btn-block btn-primary" type="submit"
+               value="Sign up"/>
+
+        <div class="remembrance errors help-block" ng-show="form.$error.server">Error in the form</div>
+    </form>
+</div>

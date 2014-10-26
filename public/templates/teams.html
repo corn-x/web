@@ -3,35 +3,32 @@
 
     <a href="/#/teams/createTeam" class="btn btn-success beton pull-right">Create Team</a>
 
-    <div class="clearfix"></div>
-    <div>
-        <accordion close-others="false">
-            <accordion-group heading="{{team.name}}" ng-repeat="team in pending_invitations">
-                <table class="table table-striped">
-                    <tr>
-                        <td> ID: </td>
-                        <td> {{team.id}} </td>
-                        <td> URL </td>
-                        <td> {{team.url}} </td>
-                        <td> YES </td>
-                        <td> NO </td>
-                    </tr>
-                </table>
-            </accordion-group>
-        </accordion>
-    </div>
-    <div>
-        <accordion close-others="false">
-            <accordion-group heading="{{team.name}}" ng-repeat="team in my_teams">
-                <table class="table table-striped">
-                    <tr>
-                        <td> ID: </td>
-                        <td> {{team.id}} </td>
-                        <td> URL </td>
-                        <td> {{team.url}} </td>
-                    </tr>
-                </table>
-            </accordion-group>
-        </accordion>
-    </div>
+<div>
+    <table class="table table-striped" >
+        <tr ng-repeat="team in pending_invitations">
+            <td> ID: </td>
+            <td> {{team.id}} </td>
+            <td> URL </td>
+            <td> {{team.url}} </td>
+            <td> <a href="/#/api/v1/teams/{{team.id}}/invitation/accept"> YES </a></td>
+            <td> <a href="/#/api/v1/teams/{{team.id}}/invitation/reject"> NO </a> </td>
+        </tr>
+    </table>
+</div>
+<div>
+    <accordion close-others="false">
+        <accordion-group heading="{{team.name}}" ng-repeat="team in my_teams">
+            <table class="table table-striped">
+                <tr>
+                    <td> ID: </td>
+                    <td> {{team.id}} </td>
+                    <td> URL </td>
+                    <td> {{team.url}} </td>
+                    <td> Dodaj </td>
+                    <td> <select id="users" ng-model="user_email" class="form-control" ng-options="user.id as user.name for user in users"></select> </td>
+                </tr>
+            </table>
+        </accordion-group>
+    </accordion>
+</div>
 </div>
