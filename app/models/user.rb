@@ -21,7 +21,9 @@ class User < ActiveRecord::Base
     start_time +=1.minute
     end_time -= 1.minute
     events =[]
+
     self.google_calendars.each do |calendar|
+      calendar.get_events
       events += calendar.events.where('(start_time <= ? and end_time >= ?) or (start_time >= ? and end_time <= ?) or (start_time <= ? and end_time >= ?) or (start_time <= ? and end_time >= ?)',start_time,start_time,start_time,end_time,end_time,end_time,start_time,end_time)
     end
     !events.empty?

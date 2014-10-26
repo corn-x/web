@@ -22,6 +22,13 @@ Rails.application.routes.draw do
           get 'my'
         end
       end
+
+      resources :calendars do
+        collection do 
+          get 'my'
+        end
+      end
+
       resources :invitations do
         collection do
           get 'my', to: 'teams#my_invitations'

@@ -1,0 +1,20 @@
+<div class="mcontainer">
+    <h1 class="pull-left">Calendars</h1>
+
+    <a href="/#/calendars/create" class="btn btn-success beton pull-right">Create Calendar</a>
+
+    <div class="clearfix"></div>
+    <div>
+        <accordion close-others="false">
+            <accordion-group heading="{{calendar.ext_id}}" ng-repeat="calendar in calendars">
+                <table class="table table-striped">
+                    <tr>
+                        <td> {{calendar.ext_id}} </td>
+                        <td> {{calendar.last_synced}} </td>
+                        <td> {{calendar.id}} </td>
+                    </tr>
+                </table>
+            </accordion-group>
+        </accordion>
+    </div>
+</div>

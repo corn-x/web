@@ -4,6 +4,8 @@ require 'open-uri'
 class GoogleCalendar < ActiveRecord::Base
   belongs_to :user
   has_many :events, as: :calendar
+  validate :ext_id, presence: true, uniqueness: true
+
   def get_events(start_time=nil,end_time=nil)
     start_time ||= Time.now
     end_time ||= Time.now + 2.weeks
@@ -12,8 +14,7 @@ class GoogleCalendar < ActiveRecord::Base
   end
 
   def pending_update?
-    !last_synced or last_synced < Time.now - 5.minutes  
-    true
+    !last_synced or last_synced < Time.now - 20.minutes  
   end
 
   def sync(start_time,end_time)
@@ -23,9 +24,10 @@ class GoogleCalendar < ActiveRecord::Base
 
     cal.events.each do |e|
       if e.dtstart.class == Icalendar::Values::DateTime and e.dtend.class == Icalendar::Values::DateTime and !(self.events.where(ext_id: e.uid.to_s).count > 0) and ((e.dtend-e.dtstart) < 1.day) and e.dtstart < end_time and e.dtstart > start_time
-        self.events.create(start_time: e.dtstart, end_time: e.dtend)
+        self.events.create(start_time: e.dtstart, end_time: e.dtend, ext_id: e.uid.to_s)
       end
     end
+    update(last_synced: Time.now)
   end
 
 end

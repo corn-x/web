@@ -55,6 +55,15 @@ app.config(['$routeProvider',
                 controller: 'meetingsController'
             }).
 
+            when('/calendars', {
+                templateUrl: 'templates/calendars.html',
+                controller: 'calendarsController'
+            }).
+            when('/calendars/create', {
+                templateUrl: 'templates/createCalendar.html',
+                controller: 'createCalendarController'
+            }).
+
             when('/teams/my', {
                 templateUrl: 'templates/teams.html',
                 controller: 'myTeamsController'
@@ -136,6 +145,23 @@ routingiControllers.controller('teamsController', ['$scope', '$routeParams',
         $scope.teamId = $routeParams.teamId;
     }]);
 
+routingiControllers.controller('calendarsController', ['$scope', '$routeParams','Calendars',
+    function ($scope, $routeParams, Calendars) {
+        $scope.calendars = Calendars.my();
+    }]);
+
+routingiControllers.controller('createCalendarController', ['$scope', '$routeParams', 'Calendars',
+    function ($scope, $routeParams, Calendars) {
+        $scope.calendar = {};
+
+        $scope.create = function(calendar) {
+            Calendars.save(calendar, function() {}, function() {
+                //error
+                alert("Something went wrong.");
+            });
+        };
+    }]);
+
 routingiControllers.controller('createMeetingController', ['$scope', '$location', 'Meetings','Teams',
     function ($scope, $location, Meetings, Teams) {
 
@@ -203,7 +229,6 @@ routingiControllers.controller('createMeetingController', ['$scope', '$location'
         };
     }]);
 
-
 routingiControllers.controller('chooseTimeController', ['$scope', '$routeParams',
     function ($scope, $routeParams) {
 
@@ -217,6 +242,11 @@ routingiControllers.controller('chooseTimeController', ['$scope', '$routeParams'
 
         $scope.meeting = {};
         $scope.meeting.time_ranges = [];
+
+        $scope.eventRender = function(event, element) {
+            if(event.color)
+            element.context.className += ' fc-half';
+        };
 
         $scope.eventClick = function(event) {
             console.log(event);
@@ -234,6 +264,7 @@ routingiControllers.controller('chooseTimeController', ['$scope', '$routeParams'
             calendar: {
                 selectable: true,
                 select: $scope.open,
+                eventRender: $scope.eventRender,
                 selectHelper: true,
                 editable: true,
                 header: {
@@ -320,6 +351,20 @@ services.factory("Invitations", ['$resource', function ($resource) {
         // 'delete': {method:'DELETE'}
        // update: { method: 'PATCH' }//,
        // my: { method: 'GET', isArray:true}
+
+        // they're included by default
+    })
+}]);
+
+services.factory("Calendars", ['$resource', function ($resource) {
+    return $resource('/api/v1/calendars/:id', { id: '@id' }, {
+        //'get': {method:'GET'},
+        // 'save': {method:'POST'},
+        // 'query': {method:'GET', isArray:true},
+        // 'remove': {method:'DELETE'},
+        // 'delete': {method:'DELETE'}
+        update: { method: 'PATCH' },
+        my: { method: 'GET', isArray:true}
 
         // they're included by default
     })
