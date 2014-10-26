@@ -23,6 +23,9 @@ class Meeting < ActiveRecord::Base
 
   def solve
     users = team.team_memberships.map { |tm| tm.user }
+    if time_ranges.empty?
+      time_ranges << ((Time.now.beginning_of_day)..(Time.now.end_of_day + 1.week))
+    end
     slice_times = []
     users.each do |u|
       slice_times += u.slice_times(time_ranges)
