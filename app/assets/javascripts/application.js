@@ -149,11 +149,12 @@ routingiControllers.controller('teamsController', ['$scope', '$routeParams',
         $scope.teamId = $routeParams.teamId;
     }]);
 
-routingiControllers.controller('createMeetingController', ['$scope', '$routeParams', 'Meetings',
-    function ($scope, $routeParams, Meetings) {
+routingiControllers.controller('createMeetingController', ['$scope', '$routeParams', 'Meetings','Teams',
+    function ($scope, $routeParams, Meetings, Teams) {
 
         $scope.eventSources = [];
         $scope.time_ranges = [];
+        $scope.teams = Teams.my();
 
         $scope.open = function(start, end, allDay)  {
             var event = {
@@ -275,6 +276,7 @@ routingiControllers.controller('myTeamsController', ['$scope', '$routeParams', '
 routingiControllers.controller('createTeamController', ['$scope', '$routeParams', 'Teams',
     function ($scope, $routeParams, Teams) {
         $scope.team = {};
+
         $scope.create = function(team) {
             Teams.save(team, function() {}, function() {
                 //error
