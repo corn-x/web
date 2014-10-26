@@ -5,7 +5,11 @@ Rails.application.routes.draw do
   scope :api, defaults: {format: :json} do
     scope :v1, defaults: {format: :json} do
       devise_for :users
-      resources :users
+      resources :users do
+        collection do
+          get 'current'
+        end
+      end
       resources :teams do
         member do
           post 'members/add', to: 'teams#add_member'

@@ -3,6 +3,11 @@ class UsersController < ApplicationController
   before_action :authenticate_from_token!
   before_action :require_same_user, only:[:update]
 
+
+  def current
+    render json: current_user
+  end
+
   # GET /users
   # GET /users.json
   def index
@@ -28,6 +33,22 @@ class UsersController < ApplicationController
     end
   end
 
+  # POST /users
+  # POST /users.json
+  def create
+    @user = User.new(user_params)
+
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to @user, notice: 'user was successfully created.' }
+        format.json { render :show, status: :created, location: @user }
+      else
+        format.html { render :new }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -36,7 +57,8 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params[:user]
+      params.require(:user).permit(:first_name,:last_name,:email,:password,:password_confirmation)
+      #/api/v1/users POST
     end
 
     def require_same_user

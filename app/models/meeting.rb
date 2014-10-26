@@ -5,7 +5,7 @@ class Meeting < ActiveRecord::Base
   belongs_to :creator, class_name: 'User'
   serialize :time_ranges, Array
 
-  validates :team_id, presence: true
+  validates :team, presence: true
   validates :name, presence: true
   validates :name, uniqueness: true
   validate :time_ranges_must_be_valid, if: Proc.new { time_ranges.present? and time_ranges.count > 0 }

@@ -1,3 +1,6 @@
+require 'pry'
+require 'icalendar'
+require 'open-uri'
 class GoogleCalendar < ActiveRecord::Base
   belongs_to :user
   has_many :events, as: :calendar
@@ -16,31 +19,15 @@ class GoogleCalendar < ActiveRecord::Base
   end
 
   def sync(start_time,end_time)
-    oauth_wrapper = OauthWrapper.new
+    ical = open(ext_id)
+    cals = Icalendar.parse(ical)
+    cal = cals.first
 
-    calendar = oauth_wrapper.client.discovered_api('calendar', 'v3')
-    oauth_wrapper.update_authorization(user)
-
-    result = oauth_wrapper.execute(
-      api_method: calendar.events.list,
-      parameters: {
-        'calendarId' => self.ext_id,
-        'singleEvents' => 'true',
-        'timeMin' => start_time.iso8601,
-        'timeMax' => end_time.iso8601
-      }
-    )
-    result.data.items.each do |event|
-      dbevent = self.get_events.find_by_ext_id(event.id)
-      if dbevent
-        dbevent.update(start_time: event.start.dateTime, end_time: event.end.dateTime)
-      else
-        self.get_events.create!(ext_id: event.id, start_time: event.start.dateTime, end_time: event.end.dateTime)
+    cal.events.each do |e|
+      if !self.events.where(ext_id: e.uid) and !((e.dtend-e.dtstart) < 1.day) and e.dtstart.between(start_time,end_time)
+        self.events.create(start_time: e.dtstart, end_time: e.dtend)
       end
     end
-    self.update(last_synced: Time.now)
-    true
-    
   end
 
 end
