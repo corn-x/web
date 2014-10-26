@@ -5,6 +5,14 @@
 .mcontainer {
   width: 75%;
   margin: 15px auto;
+  padding: 5px 20px;
+//  border-radius: 20px;
+//  box-shadow: 0 0 80px -50px #BBBBBB;
+  background: #F7F7F7;
+  border-radius: 20px;
+  -webkit-box-shadow: 0 0 60px -45px #BBBBBB;
+  -moz-box-shadow: 0 0 60px -45px #BBBBBB;
+  box-shadow: 0 0 60px -45px #BBBBBB;
 }
 
 .beton {

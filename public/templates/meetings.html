@@ -1,6 +1,7 @@
 <div class="mcontainer">
-    <h1>Meetings</h1>
-    <a href="/#/meetings/createMeeting" class="btn btn-success beton">Create Meeting</a>
+    <h1 class="pull-left">Meetings</h1>
+    <a href="/#/meetings/createMeeting" class="btn btn-success beton pull-right">Create Meeting</a>
+    <div class="clearfix"></div>
     <accordion close-others="false">
         <accordion-group heading="{{meeting.name}}" ng-repeat="meeting in meetings">
             <table class="table table-striped">
