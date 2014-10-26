@@ -149,8 +149,8 @@ routingiControllers.controller('teamsController', ['$scope', '$routeParams',
         $scope.teamId = $routeParams.teamId;
     }]);
 
-routingiControllers.controller('createMeetingController', ['$scope', '$routeParams', 'Meetings','Teams',
-    function ($scope, $routeParams, Meetings, Teams) {
+routingiControllers.controller('createMeetingController', ['$scope', '$location', 'Meetings','Teams',
+    function ($scope, $location, Meetings, Teams) {
 
         $scope.eventSources = [];
         $scope.time_ranges = [];
@@ -207,7 +207,9 @@ routingiControllers.controller('createMeetingController', ['$scope', '$routePara
         test = $scope;
         $scope.create = function() {
             //$scope.meeting.time_ranges = $scope.time_ranges;
-            Meetings.save(angular.extend($scope.meeting,{time_ranges:$scope.time_ranges}), function() {}, function() {
+            Meetings.save(angular.extend($scope.meeting,{time_ranges:$scope.time_ranges}), function(data) {
+                $location.path('meetings/'+data.id+'/chooseTime');
+            }, function() {
                 //error
                 alert("Something went wrong.");
             });

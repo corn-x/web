@@ -1,12 +1,25 @@
-<div>
-    <form novalidate class="form">
-        Name: <input type="text" ng-model="meeting.name" required /><br />
-        Description: <input type="textarea" height="2" ng-model="meeting.description" required /><br />
-        Place: <input type="text" ng-model="meeting.where" required /><br />
-        Team: <select ng-model="meeting.team_id" ng-options="team.id as team.name for team in teams"></select>
-        <button ng-click="create(meeting)">SAVE</button>
-    </form>
+<div class="mcontainer">
+    <h1>Create your meeting!</h1>
+        <form novalidate class="form ">
+            <div class="input-group">
+                <label for="name">Name:</label>
+                <input id="name" type="text" class="form-control" ng-model="meeting.name" required />
+            </div>
+            <div class="input-group">
+                <label for="desc">Name:</label>
+                <input id="desc" type="text" class="form-control" ng-model="meeting.description" required />
+            </div>
+            <div class="input-group">
+                <label for="wh">Name:</label>
+                <input id="wh" type="text" class="form-control" ng-model="meeting.where" required />
+            </div>
+            <div class="input-group">
+                <button class="btn btn-xlarge btn-success beton" ng-click="create(meeting)">Submit</button>
+            </div>
+        </form>
+    <div class="clearfix"></div>
+    <h3>You can specify preferred hours</h3>
+    <br />
+    <div ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="calendar"></div>
+    <!--{{ time_ranges }}-->
 </div>
-
-<div ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="calendar"></div>
-{{ teams }}
