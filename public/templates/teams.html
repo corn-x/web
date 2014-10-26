@@ -1,6 +1,7 @@
-<h1>Teams</h1>
+<div class="mcontainer">
+    <h1 class="pull-left">Teams</h1>
 
-<a href="/#/teams/createTeam" class="btn btn-primary">Create Team</a>
+    <a href="/#/teams/createTeam" class="btn btn-success beton pull-right">Create Team</a>
 
 <div>
     <table class="table table-striped" >
@@ -12,13 +13,6 @@
             <td> <a href="/#/api/v1/teams/{{team.id}}/invitation/accept"> YES </a></td>
             <td> <a href="/#/api/v1/teams/{{team.id}}/invitation/reject"> NO </a> </td>
         </tr>
-<!--
-            {{team.id}}
-            {{team.url}}
-            <a href="/#/api/v1/teams/{{team.id}}/invitation/accept"> YES </a>
-            <a href="/#/api/v1/teams/{{team.id}}/invitation/reject"> NO </a>
--->
-
     </table>
 </div>
 <div>
@@ -34,4 +28,5 @@
             </table>
         </accordion-group>
     </accordion>
+</div>
 </div>
