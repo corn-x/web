@@ -18,12 +18,12 @@ class User < ActiveRecord::Base
   end
 
   def busy?(start_time, end_time)
-    events = []
+    events =[]
     self.google_calendars.each do |calendar|
       events += calendar.events.where(
-          '(start_time > ? or end_time < ?) or (start_time < ? and end_time > ?)',
-          start_time, end_time, start_time, end_time
-      )
+          '(start_time < ? and end_time > ?) or (start_time < ? and end_time > ?) or (start_time < ? and end_time > ?)',
+          start_time, start_time, end_time, end_time, start_time, end_time
+      ) || []
     end
     !events.empty?
   end

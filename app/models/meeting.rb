@@ -31,8 +31,8 @@ class Meeting < ActiveRecord::Base
       slice_times << time_range.begin
       slice_times << time_range.end
     end
-    slice_times.sort
-    slice_times = slice_times.uniq
+    slice_times.uniq!
+    slice_times.sort!
     previous = slice_times.first
     events = []
     slice_times[1..-1].each do |time|
@@ -43,7 +43,7 @@ class Meeting < ActiveRecord::Base
             collisions += 1
           end
         end
-        hue = (1 - (collisions / users.size.to_f)) * 0.4
+        hue = (1 - (collisions / team.members.size.to_f)) * 0.4
         events << {
             title: collisions,
             start: previous,
