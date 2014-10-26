@@ -43,12 +43,12 @@ class Meeting < ActiveRecord::Base
             collisions += 1
           end
         end
-        hue = (1 - (collisions / users.size.to_f)) * 0.4
+        hue = (1 - (collisions / users.size.to_f)) * 0.3
         events << {
             title: collisions,
             start: previous,
             end: time,
-            color: '#' + Color::HSL.from_fraction(h = hue, s = 0.9, l = 0.9).to_rgb.hex
+            color: '#' + Color::HSL.from_fraction(h = hue, s = 0.9, l = 0.7).to_rgb.hex
         }
       end
       previous = time
