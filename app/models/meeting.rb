@@ -44,12 +44,7 @@ class Meeting < ActiveRecord::Base
       end
       hue = (1 - (collisions / users.size.to_f)) * 0.3
       color = '#' + Color::HSL.from_fraction(h = hue, s = 0.9, l = 0.7).to_rgb.hex
-      if time.day != previous.day
-        events << { title: collisions, start: previous, end: previous.end_of_day, color: color }
-        events << { title: collisions, start: time.beginning_of_day, end: time, color: color }
-      else
-        events << { title: collisions, start: previous, end: time, color: color }
-      end
+      events << { title: collisions, start: previous, end: time, color: color }
       previous = time
     end
     events
