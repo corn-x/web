@@ -1,9 +1,11 @@
 class CalendarsController < ApplicationController
+  respond_to :json
   before_action :set_calendar, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_from_token!
 
   def my
     @calendars = current_user.google_calendars
+    respond_with @calendars, render: 'index'
   end
 
 

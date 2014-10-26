@@ -163,12 +163,14 @@ routingiControllers.controller('calendarsController', ['$scope', '$routeParams',
         $scope.calendars = Calendars.my();
     }]);
 
-routingiControllers.controller('createCalendarController', ['$scope', '$routeParams', 'Calendars',
-    function ($scope, $routeParams, Calendars) {
+routingiControllers.controller('createCalendarController', ['$scope', '$routeParams', 'Calendars','$location',
+    function ($scope, $routeParams, Calendars,$location) {
         $scope.calendar = {};
 
         $scope.create = function(calendar) {
-            Calendars.save(calendar, function() {}, function() {
+            Calendars.save(calendar, function() {
+                $location.path('calendars');
+            }, function() {
                 //error
                 alert("Something went wrong.");
             });
@@ -304,36 +306,21 @@ routingiControllers.controller('myTeamsController', ['$scope', '$routeParams',
     'Teams', 'Invitations', 'Users',
     function ($scope, $routeParams, Teams, Invitations, Users) {
 
-        var chosen = [];
-
-        function addSelectedItem() {
-            var item =function showSelectedItem() {
-                var item = document.getElementById("select").value;
-                document.getElementById("current").innerHTML = item;
-                chosen.push(item);
-            };
-
-            document.getElementById("select").addEventListener("change", showSelectedItem);
-            document.getElementById("current").innerHTML = item;
-            chosen.push()
-        }
-
-        document.getElementById("select")
-            .addEventListener("change", showSelectedItem);
-
         // send invitations to chosen
 
         $scope.my_teams = Teams.my();
-        $scope.pending_invitations = Invitations.query();
+        $scope.pending_invitations = Invitations.my();
         $scope.users = Users.all;
     }]);
 
-routingiControllers.controller('createTeamController', ['$scope', '$routeParams', 'Teams',
-    function ($scope, $routeParams, Teams) {
+routingiControllers.controller('createTeamController', ['$scope', '$routeParams', 'Teams','$location',
+    function ($scope, $routeParams, Teams,$location) {
         $scope.team = {};
 
         $scope.create = function(team) {
-            Teams.save(team, function() {}, function() {
+            Teams.save(team, function() {
+                $location.path('teams/my');
+            }, function() {
                 //error
                 alert("Something went wrong.");
             });
@@ -355,7 +342,10 @@ services.factory("Teams", ['$resource', function ($resource) {
         // 'remove': {method:'DELETE'},
         // 'delete': {method:'DELETE'}
         update: { method: 'PATCH' },
-        my: { method: 'GET', isArray:true}
+        my: { method: 'GET', isArray:true,
+            params: {
+                id: 'my'
+            }}
 
         // they're included by default
     })
@@ -370,7 +360,10 @@ services.factory("Meetings", ['$resource', function ($resource) {
         // 'remove': {method:'DELETE'},
         // 'delete': {method:'DELETE'}
         update: { method: 'PATCH' },
-        my: { method: 'GET', isArray:true}
+        my: { method: 'GET', isArray:true,
+            params: {
+                id: 'my'
+            }}
 
         // they're included by default
     })
@@ -378,22 +371,23 @@ services.factory("Meetings", ['$resource', function ($resource) {
 
 
 services.factory("Invitations", ['$resource', function ($resource) {
-    return $resource('/api/v1/invitations/my', {
-        'get': {method:'GET'}//,
-        // 'save': {method:'POST'},
-        // 'query': {method:'GET', isArray:true},
-        // 'remove': {method:'DELETE'},
-        // 'delete': {method:'DELETE'}
-       // update: { method: 'PATCH' }//,
-       // my: { method: 'GET', isArray:true}
-
-        // they're included by default
+    return $resource('/api/v1/invitations/:id', { id: '@id' }, {
+        update: { method: 'PATCH' },
+        my: { method: 'GET', isArray:true,
+            params: {
+                id: 'my'
+            }}
     })
 }]);
 
 
 services.factory("Calendars", ['$resource', function ($resource) {
     return $resource('/api/v1/calendars/:id', { id: '@id' }, {
+        my: { method: 'GET', isArray:true,
+            params: {
+                id: 'my'
+            }}
+
         //'get': {method:'GET'},
     })
 }]);
@@ -404,7 +398,10 @@ services.factory("Users", ['$resource', function ($resource) {
         // 'remove': {method:'DELETE'},
         // 'delete': {method:'DELETE'}
         update: { method: 'PATCH' },
-        my: { method: 'GET', isArray:true}
+        my: { method: 'GET', isArray:true,
+            params: {
+                id: 'my'
+            }}
 
         // they're included by default
     })

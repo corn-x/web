@@ -1,7 +1,7 @@
 <li ng-show="!current_user.email"><a href="#/login">Log in</a></li>
 <li ng-show="!current_user.email"><a href="#/register">Register</a></li>
 <li ng-show="current_user.email"><a href="#/meetings">Meetings</a></li>
-<li ng-show="current_user.email"><a href="#/teams">Teams</a></li>
+<li ng-show="current_user.email"><a href="#/teams/my">Teams</a></li>
 <li ng-show="current_user.email"><a href="#/calendars">Calendars</a></li>
 
 <li ng-show="current_user.email"><a href="#" ng-click="logout()">Log out</a></li>

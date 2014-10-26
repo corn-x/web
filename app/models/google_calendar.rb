@@ -4,7 +4,7 @@ require 'open-uri'
 class GoogleCalendar < ActiveRecord::Base
   belongs_to :user
   has_many :events, as: :calendar
-  validate :ext_id, presence: true, uniqueness: true
+  validates :ext_id, presence: true, uniqueness: true
 
   def get_events(start_time=nil,end_time=nil)
     start_time ||= Time.now

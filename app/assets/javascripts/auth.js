@@ -24,7 +24,7 @@ session_service.factory("SessionService", [ '$http', '$q', '$rootScope','$locati
                     //AlertService.add("danger", response.data.error);
                 } else {
                     service.currentUser = response.data;
-                    $location.path('teams');
+                    $location.path('teams/my');
                     service.broadcastToNav(service.currentUser);
                     //AlertService.clear();
                     //AlertService.add("success", "Logged in", 2000);
