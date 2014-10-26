@@ -1,34 +1,37 @@
-<h1>Teams</h1>
+<div class="mcontainer">
+    <h1 class="pull-left">Teams</h1>
 
-<a href="/#/teams/createTeam" class="btn btn-primary">Create Team</a>
+    <a href="/#/teams/createTeam" class="btn btn-success beton pull-right">Create Team</a>
 
-<div>
-    <accordion close-others="false">
-        <accordion-group heading="{{team.name}}" ng-repeat="team in pending_invitations">
-            <table class="table table-striped">
-                <tr>
-                    <td> ID: </td>
-                    <td> {{team.id}} </td>
-                    <td> URL </td>
-                    <td> {{team.url}} </td>
-                    <td> YES </td>
-                    <td> NO </td>
-                </tr>
-            </table>
-        </accordion-group>
-    </accordion>
-</div>
-<div>
-    <accordion close-others="false">
-        <accordion-group heading="{{team.name}}" ng-repeat="team in my_teams">
-            <table class="table table-striped">
-                <tr>
-                    <td> ID: </td>
-                    <td> {{team.id}} </td>
-                    <td> URL </td>
-                    <td> {{team.url}} </td>
-                </tr>
-            </table>
-        </accordion-group>
-    </accordion>
+    <div class="clearfix"></div>
+    <div>
+        <accordion close-others="false">
+            <accordion-group heading="{{team.name}}" ng-repeat="team in pending_invitations">
+                <table class="table table-striped">
+                    <tr>
+                        <td> ID: </td>
+                        <td> {{team.id}} </td>
+                        <td> URL </td>
+                        <td> {{team.url}} </td>
+                        <td> YES </td>
+                        <td> NO </td>
+                    </tr>
+                </table>
+            </accordion-group>
+        </accordion>
+    </div>
+    <div>
+        <accordion close-others="false">
+            <accordion-group heading="{{team.name}}" ng-repeat="team in my_teams">
+                <table class="table table-striped">
+                    <tr>
+                        <td> ID: </td>
+                        <td> {{team.id}} </td>
+                        <td> URL </td>
+                        <td> {{team.url}} </td>
+                    </tr>
+                </table>
+            </accordion-group>
+        </accordion>
+    </div>
 </div>

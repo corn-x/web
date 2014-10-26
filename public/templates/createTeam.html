@@ -1,6 +1,9 @@
-<div>
-    <form novalidate class="form">
-        Name: <input type="text" ng-model="team.name" required /><br />
-        <button ng-click="create(team)">SAVE</button>
+ <div class="login-container">
+    <form>
+        <div class="input-group">
+            <span class="input-group-addon">@</span>
+            <input type="text" class="form-control" placeholder="Name">
+        </div>
+        <button ng-click="create(team)" class="btn btn-large btn-block btn-success beton">Save</button>
     </form>
 </div>
