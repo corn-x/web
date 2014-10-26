@@ -10,6 +10,13 @@ class Meeting < ActiveRecord::Base
   validates :name, uniqueness: true
   validate :time_ranges_must_be_valid, if: Proc.new { time_ranges.present? and time_ranges.count > 0 }
 
+  def time_ranges=(ar)
+    self['time_ranges'] = [] if ar.class != Array
+    self['time_ranges'] = [] if ar == []
+    self['time_ranges'] = ar if ar.first.class == Range
+    self['time_ranges'] = ar.map {|a| (Time.parse a['start_time'])..(Time.parse a['end_time'])}
+  end
+
   def scheduled?
     !self.start_time.nil? and !self.end_time.nil?
   end
