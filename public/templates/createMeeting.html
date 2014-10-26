@@ -3,9 +3,10 @@
         Name: <input type="text" ng-model="meeting.name" required /><br />
         Description: <input type="textarea" height="2" ng-model="meeting.description" required /><br />
         Place: <input type="text" ng-model="meeting.where" required /><br />
+        Team: <select ng-model="meeting.team_id" ng-options="team.id as team.name for team in teams"></select>
         <button ng-click="create(meeting)">SAVE</button>
     </form>
 </div>
 
 <div ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="calendar"></div>
-{{ time_ranges }}
+{{ teams }}
