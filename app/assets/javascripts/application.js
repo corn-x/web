@@ -79,9 +79,12 @@ app.config(['$routeProvider',
                 templateUrl: 'templates/chooseTime.html',
                 controller: 'chooseTimeController'
             }).
+            when('/', {
+                templateUrl: 'templates/root.html'
+            }).
 
             otherwise({
-                redirectTo: '/login'
+                redirectTo: '/'
             });
     }]);
 
