@@ -6,13 +6,18 @@
                 <input id="name" type="text" class="form-control" ng-model="meeting.name" required />
             </div>
             <div class="input-group">
-                <label for="desc">Name:</label>
+                <label for="desc">Description:</label>
                 <input id="desc" type="text" class="form-control" ng-model="meeting.description" required />
             </div>
             <div class="input-group">
-                <label for="wh">Name:</label>
+                <label for="wh">Where:</label>
                 <input id="wh" type="text" class="form-control" ng-model="meeting.where" required />
             </div>
+            <div class="input-group">
+                <label for="team">Team:</label>
+                <select id="team" ng-model="meeting.team_id" class="form-control" ng-options="team.id as team.name for team in teams"></select>
+            </div>
+            
             <div class="input-group">
                 <button class="btn btn-xlarge btn-success beton" ng-click="create(meeting)">Submit</button>
             </div>
