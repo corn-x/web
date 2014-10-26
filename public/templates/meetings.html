@@ -1,15 +1,15 @@
+<div class="mcontainer">
     <h1>Meetings</h1>
-
-    <a href="/#/meetings/createMeeting" class="btn btn-primary">Create Meeting</a>
-
+    <a href="/#/meetings/createMeeting" class="btn btn-success beton">Create Meeting</a>
     <accordion close-others="false">
-        <accordion-group heading="{{meeting.id}}" ng-repeat="meeting in meetings">
+        <accordion-group heading="{{meeting.name}}" ng-repeat="meeting in meetings">
             <table class="table table-striped">
                 <tr>
-                    <td>
-                        {{meeting.url}}
-                    </td>
+                    <td>Description: {{meeting.description}}</td>
+                    <td>Begin: {{meeting.start_time}}</td>
+                    <td>End: {{meeting.end_time}}</td>
                 </tr>
             </table>
         </accordion-group>
     </accordion>
+</div>
